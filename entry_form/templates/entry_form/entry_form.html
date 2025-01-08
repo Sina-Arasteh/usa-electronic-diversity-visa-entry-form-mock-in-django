@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-  <link rel="stylesheet" href="{% static 'entry_form/style.css' %}">
+    <link rel="stylesheet" href="{% static 'entry_form/style.css' %}">
 	<script src="{% static 'entry_form/dynamic_temp.js' %}" defer></script>
 {% endblock %}
 
@@ -15,7 +15,7 @@
 			<h4>Part One - Entrant Information</h4>
 		</div>
 
-		<form action="/" method="post" class="border-bottom mb-3">
+		<form action="entry-form" method="post" class="border-bottom mb-3" enctype="multipart/form-data">
 			{% csrf_token %}
 
 			<div class="card rounded-1 mb-4">
@@ -94,7 +94,7 @@
 					<p class="mb-2">Enter Birth City Only. Do not enter District/County/Province/State.</p>
 					<div>
 						<label for="bcity" class="form-label">Birth City</label><br>
-						<input type="text" id="bcity" name="birth-city" class="form-control width-60" required>
+						<input type="text" id="bcity" name="birth_city" class="form-control width-60" required>
 						<div class="p-1 small">
 							<input type="checkbox" id="no-bcity">
 							<label for="no-bcity" class="form-check-label">Birth City Unknown</label>
@@ -375,11 +375,11 @@
 					<div>
 						<p class="mb-1">Are you claiming eligibility based on the country where you were born?</p>
 						<div class="form-check d-inline-block ps-2">
-							<input type="radio" name="bcountry-eligibility" id="yes-bcountry-eligibility" required>
+							<input type="radio" name="bcountry-eligibility" id="yes-bcountry-eligibility">
 							<label for="yes-bcountry-eligibility" class="form-check-label">Yes</label>
 						</div>
 						<div class="form-check d-inline-block ps-2">
-							<input type="radio" name="bcountry-eligibility" id="no-bcountry-eligibility" required>
+							<input type="radio" name="bcountry-eligibility" id="no-bcountry-eligibility">
 							<label for="no-bcountry-eligibility" class="form-check-label">No</label>
 						</div>
 						<div>
@@ -664,8 +664,8 @@
 					<div class="form-text">
 						<p>Clicking the 'Choose New Photo' butoon will allow you to look for and choose the file which is storing the photograph. Once chosen, the file name and the photo will display. If the photo is not correct, please click on the 'Choose New Photo' button to choose a new file.</p>
 					</div>
-					<!-- <div>
-						<input type="file" name="entrant-photograph" id="entrant-photograph" class="d-none" accept="image/jpeg" required>
+					<div>
+						<input type="file" name="entrant_photograph" id="entrant-photograph" class="d-none" accept="image/jpeg" required>
 						<div class="d-flex mb-3">
 							<input type="text" id="entrant-photograph-name" class="border border-secondary rounded-1 px-2" size="33" disabled>
 							<button type="button" id="entrant-photograph-trigger" class="border border-secondary rounded-1"><span class="small">Choose New Photo</span></button>
@@ -673,7 +673,7 @@
 						<div>
 							<img src="" alt="" id="entrant-photograph-show">
 						</div>
-					</div> -->
+					</div>
 				</div>
 			</div>
 
@@ -684,15 +684,15 @@
 				<div class="card-body p-4">
 					<div class="mb-3">
 						<label for="in-care-of" class="form-label">a. In Care Of (optional)</label><br>
-						<input type="text" id="in-care-of" name="in-care-of" maxlength="33" class="form-control width-60">
+						<input type="text" id="in-care-of" name="in_care_of" maxlength="33" class="form-control width-60">
 					</div>
 					<div class="mb-3">
 						<label for="address-line1" class="form-label">b. Address Line 1</label><br>
-						<input type="text" id="address-line1" name="address-line1" maxlength="33" class="form-control width-60" required>
+						<input type="text" id="address-line1" name="address_line_one" maxlength="33" class="form-control width-60" required>
 					</div>
 					<div class="mb-3">
 						<label for="address-line2" class="form-label">c. Address Line 2 (optional)</label><br>
-						<input type="text" id="address-line2" name="address-line2" maxlength="33" class="form-control width-60">
+						<input type="text" id="address-line2" name="address_line_two" maxlength="33" class="form-control width-60">
 					</div>
 					<div class="mb-3">
 						<label for="city" class="form-label">d. City/Town</label><br>
@@ -704,7 +704,7 @@
 					</div>
 					<div class="mb-3">
 						<label for="zcode" class="form-label">f. Postal Code/Zip Code</label><br>
-						<input type="text" id="zcode" name="zip-code" maxlength="33" class="form-control width-60" required>
+						<input type="text" id="zcode" name="zip_code" maxlength="33" class="form-control width-60" required>
 						<div class="p-1 small">
 							<input type="checkbox" id="no-zcode">
 							<label for="no-zcode" class="form-check-label">No Postal Code / Zip Code</label>
@@ -712,7 +712,7 @@
 					</div>
 					<div>
 						<label for="m-country" class="form-label">g. Country</label>
-						<select name="mailing-country" class="form-select width-60" id="m-country" required>
+						<select name="country" class="form-select width-60" id="m-country" required>
 								<option value="">Select A Country...</option>
 								<option value="Afghanistan">Afghanistan</option>
 								<option value="Åland Islands">Åland Islands</option>
@@ -976,7 +976,7 @@
 						9. Country Where You Live Today
 				</div>
 				<div class="card-body p-4">
-					<select name="residence-country" class="form-select width-60" required>
+					<select name="residence_country" class="form-select width-60" required>
 						<option value="">Select A Country...</option>
 						<option value="Afghanistan">Afghanistan</option>
 						<option value="Åland Islands">Åland Islands</option>
@@ -1239,7 +1239,7 @@
 						10. Phone Number
 				</div>
 				<div class="card-body p-4">
-					<input type="tel" name="phone-number" class="form-control width-60">
+					<input type="tel" name="phone_number" class="form-control width-60">
 					<div class="form-text">
 						<span class="small">(optional)</span>
 					</div>
@@ -1253,7 +1253,7 @@
 				<div class="card-body p-4">
 					<div class="mb-3">
 						<label for="email-address" class="form-label">a. E-Mail Address <span>(e.g. johndoe@example.com)</span></label><br>
-						<input type="email" id="email-address" name="email-address" class="form-control width-60" required>
+						<input type="email" id="email-address" name="email_address" class="form-control width-60" required>
 					</div>
 					<div>
 						<label for="confirm-email-address" class="form-label">b. Confirm E-Mail Address</label><br>
@@ -1273,43 +1273,43 @@
 				</div>
 				<div class="card-body p-4">
 					<div class="form-check ps-2">
-						<input type="radio" name="education-level" value="Primary school only" id="pso" required>
+						<input type="radio" name="education_level" value="Primary school only" id="pso" required>
 						<label for="pso" class="form-check-label">Primary school only</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="education-level" value="High School, no degree" id="hsnd" required>
+						<input type="radio" name="education_level" value="High School, no degree" id="hsnd" required>
 						<label for="hsnd" class="form-check-label">High School, no degree</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="education-level" value="High School degree" id="hsd" required>
+						<input type="radio" name="education_level" value="High School degree" id="hsd" required>
 						<label for="hsd" class="form-check-label">High School degree</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="education-level" value="Vocational School" id="vs" required>
+						<input type="radio" name="education_level" value="Vocational School" id="vs" required>
 						<label for="vs" class="form-check-label">Vocational School</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="education-level" value="Some University Courses" id="suc" required>
+						<input type="radio" name="education_level" value="Some University Courses" id="suc" required>
 						<label for="suc" class="form-check-label">Some University Courses</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="education-level" value="University Degree" id="ud" required>
+						<input type="radio" name="education_level" value="University Degree" id="ud" required>
 						<label for="ud" class="form-check-label">University Degree</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="education-level" value="Some Graduate Level Courses" id="sglc" required>
+						<input type="radio" name="education_level" value="Some Graduate Level Courses" id="sglc" required>
 						<label for="sglc" class="form-check-label">Some Graduate Level Courses</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="education-level" value="Master's Degree" id="md" required>
+						<input type="radio" name="education_level" value="Master's Degree" id="md" required>
 						<label for="md" class="form-check-label">Master's Degree</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="education-level" value="Some Doctorate Level Courses" id="sdlc" required>
+						<input type="radio" name="education_level" value="Some Doctorate Level Courses" id="sdlc" required>
 						<label for="sdlc" class="form-check-label">Some Doctorate Level Courses</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="education-level" value="Doctorate Degree" id="dd" required>
+						<input type="radio" name="education_level" value="Doctorate Degree" id="dd" required>
 						<label for="dd" class="form-check-label">Doctorate Degree</label>
 					</div>
 					<p class="mt-2">
@@ -1324,27 +1324,27 @@
 				</div>
 				<div class="card-body p-4">
 					<div class="form-check ps-2">
-						<input type="radio" name="marital-status" value="Unmarried" id="unmarried" required>
+						<input type="radio" name="marital_status" value="Unmarried" id="unmarried" required>
 						<label for="unmarried" class="form-check-label">Unmarried</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="marital-status" value="Married and my spouse is NOT a U.S.citizen or U.S. Lawful Permanent Resident (LPR)" id="married-spouse-not" required>
+						<input type="radio" name="marital_status" value="Married and my spouse is NOT a U.S.citizen or U.S. Lawful Permanent Resident (LPR)" id="married-spouse-not" required>
 						<label for="married-spouse-not" class="form-check-label">Married and my spouse is NOT a U.S.citizen or U.S. Lawful Permanent Resident (LPR)</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="marital-status" value="Married and my spouse IS a U.S.citizen or U.S. Lawful Permanent Resident (LPR)" id="married-spouse" required>
+						<input type="radio" name="marital_status" value="Married and my spouse IS a U.S.citizen or U.S. Lawful Permanent Resident (LPR)" id="married-spouse" required>
 						<label for="married-spouse" class="form-check-label">Married and my spouse IS a U.S.citizen or U.S. Lawful Permanent Resident (LPR)</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="marital-status" value="Divorced" id="divorced" required>
+						<input type="radio" name="marital_status" value="Divorced" id="divorced" required>
 						<label for="divorced" class="form-check-label">Divorced</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="marital-status" value="Widowed" id="widowed" required>
+						<input type="radio" name="marital_status" value="Widowed" id="widowed" required>
 						<label for="widowed" class="form-check-label">Widowed</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="marital-status" value="Legally Separated" id="legally-separated" required>
+						<input type="radio" name="marital_status" value="Legally Separated" id="legally-separated" required>
 						<label for="legally-separated" class="form-check-label">Legally Separated</label>
 						<div class="p-1 ps-3 small">
 							<input type="checkbox" id="spouse-info" disabled>
@@ -1363,7 +1363,7 @@
 				</div>
 				<div class="card-body p-4">
 					<div class="mb-3">
-						<input type="number" name="children-number" class="form-control width-25" min="0" max="20" required>
+						<input type="number" name="children_number" class="form-control width-25" min="0" max="20" required>
 					</div>
 					<p class="mt-2">Children include all biological children, legally adopted children, and stepchildren who are unmarried and under the age of 21 on the date you submit your entry. You must include all eligible children, even if they do not live with you or if they do not intend to apply for a Diversity Visa as your derivative. Failure to list all eligible children is ground for disqualification. If your child is a U.S. citizen or Lawful Permanent Resident, do not list him/her in your entry.</p>
 				</div>
