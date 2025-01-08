@@ -82,3 +82,28 @@ function presentSelectedImage() {
     fileObjectImage.width = 120;
 }
 entrantPhotograph.addEventListener('input', presentSelectedImage);
+
+
+const Unmarried = document.getElementById('unmarried');
+const marriedSpouseNot = document.getElementById('married-spouse-not');
+const marriedSpouse = document.getElementById('married-spouse');
+const divorced = document.getElementById('divorced');
+const widowed = document.getElementById('widowed');
+const legallySeparated = document.getElementById('legally-separated');
+const spouseInfo = document.getElementById('spouse-info');
+function undisableSpouseInfo() {
+    if (legallySeparated.checked) {
+        spouseInfo.disabled = false;
+    }
+}
+legallySeparated.addEventListener('click', undisableSpouseInfo);
+function disableSpouseInfo() {
+    if (Unmarried.checked || marriedSpouseNot.checked || marriedSpouse.checked || divorced.checked || widowed.checked) {
+        spouseInfo.disabled = true;
+    }
+}
+Unmarried.addEventListener('click', disableSpouseInfo);
+marriedSpouseNot.addEventListener('click', disableSpouseInfo);
+marriedSpouse.addEventListener('click', disableSpouseInfo);
+divorced.addEventListener('click', disableSpouseInfo);
+widowed.addEventListener('click', disableSpouseInfo);

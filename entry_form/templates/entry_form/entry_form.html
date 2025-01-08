@@ -109,7 +109,7 @@
 				</div>
 				<div class="card-body p-4">
 					<select name="birth_country" class="form-select width-60" required>
-						<option>Select A Country...</option>
+						<option value="">Select A Country...</option>
 						<option value="Afghanistan">Afghanistan</option>
 						<option value="Åland Islands">Åland Islands</option>
 						<option value="Albania">Albania</option>
@@ -385,7 +385,7 @@
 						<div>
 							<label for="elig-country" class="form-label">If not, you must enter the country from which you are clainming eligibility.</label>
 							<select name="eligibility_country" class="form-select width-60" id="elig-country" required>
-								<option>Select A Country...</option>
+								<option value="">Select A Country...</option>
 								<option value="Afghanistan">Afghanistan</option>
 								<option value="Åland Islands">Åland Islands</option>
 								<option value="Albania">Albania</option>
@@ -664,7 +664,7 @@
 					<div class="form-text">
 						<p>Clicking the 'Choose New Photo' butoon will allow you to look for and choose the file which is storing the photograph. Once chosen, the file name and the photo will display. If the photo is not correct, please click on the 'Choose New Photo' button to choose a new file.</p>
 					</div>
-					<div>
+					<!-- <div>
 						<input type="file" name="entrant-photograph" id="entrant-photograph" class="d-none" accept="image/jpeg" required>
 						<div class="d-flex mb-3">
 							<input type="text" id="entrant-photograph-name" class="border border-secondary rounded-1 px-2" size="33" disabled>
@@ -673,7 +673,7 @@
 						<div>
 							<img src="" alt="" id="entrant-photograph-show">
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 
@@ -713,7 +713,7 @@
 					<div>
 						<label for="m-country" class="form-label">g. Country</label>
 						<select name="mailing-country" class="form-select width-60" id="m-country" required>
-								<option>Select A Country...</option>
+								<option value="">Select A Country...</option>
 								<option value="Afghanistan">Afghanistan</option>
 								<option value="Åland Islands">Åland Islands</option>
 								<option value="Albania">Albania</option>
@@ -977,7 +977,7 @@
 				</div>
 				<div class="card-body p-4">
 					<select name="residence-country" class="form-select width-60" required>
-						<option>Select A Country...</option>
+						<option value="">Select A Country...</option>
 						<option value="Afghanistan">Afghanistan</option>
 						<option value="Åland Islands">Åland Islands</option>
 						<option value="Albania">Albania</option>
@@ -1257,7 +1257,7 @@
 					</div>
 					<div>
 						<label for="confirm-email-address" class="form-label">b. Confirm E-Mail Address</label><br>
-						<input type="email" id="confirm-email-address" class="form-control width-60" required>
+						<input type="email" id="confirm-email-address" class="form-control width-60" autocomplete="off" required>
 						<div class="form-text">
 							<span class="small">
 								(NOTE: This e-mail address will be used to provide you with additional information if you are selected.)
@@ -1344,10 +1344,10 @@
 						<label for="widowed" class="form-check-label">Widowed</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="marital-status" value="Legally Separated" id="legally separated" required>
-						<label for="legally separated" class="form-check-label">Legally Separated</label>
+						<input type="radio" name="marital-status" value="Legally Separated" id="legally-separated" required>
+						<label for="legally-separated" class="form-check-label">Legally Separated</label>
 						<div class="p-1 ps-3 small">
-							<input type="checkbox" id="spouse-info">
+							<input type="checkbox" id="spouse-info" disabled>
 							<label for="spouse-info" class="form-check-label">Enter Spouse Information</label>
 						</div>
 					</div>
@@ -1371,7 +1371,7 @@
 
 			<div class="mb-4 pb-3">
 				<button type="submit" class="btn text-white main-color-hov bg-gradient">Continue</button>
-				<button type="submit" class="btn text-white main-color-hov bg-gradient">Cancel Entry</button>
+				<a href="{% url 'entry_form:cancel' %}" class="btn text-white main-color-hov bg-gradient">Cancel Entry</a>
 			</div>
 		</form>
 		<p class="small"><b>PAPERWORK REDUCTION ACT:</b> Public reporting burden for this collection of information is estimated to average 30 minutes per response, including time require for searching existing data sources, gathering the necessary documentation, providing the information and/or documents required, and reviewing the final collection. You do not have to supply this information unless this collection displays a currently valid OMB control number. If you have comments on the accuracy of this burden estimate and/or recommendations for reducing it, please send them to: PRA_BurdenComments@state.gov.</p>
