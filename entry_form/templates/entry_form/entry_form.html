@@ -3,33 +3,61 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'entry_form/style.css' %}">
-	<script src="{% static 'entry_form/dynamic_temp.js' %}" defer></script>
+	<script src="{% static 'entry_form/entry_form.js' %}" defer></script>
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="mb-5 pb-4">
-			<h5>Electronic Diversity Visa Entry Form</h5>
-		</div>
-		<div class="text-center">
-			<h4>Part One - Entrant Information</h4>
-		</div>
+<div class="container">
+	<div class="mb-5 pb-4">
+		<h5>Electronic Diversity Visa Entry Form</h5>
+	</div>
 
-		<form action="entry-form" method="post" class="border-bottom mb-3" enctype="multipart/form-data">
-			{% csrf_token %}
+	<div class="entrant-info mb-4 d-none">
+		<p>If you need to go back and make a correction, do <b>NOT</b> use the back button on your browser. Instead use the appropriate button here or below:</p>
+		<button type="button" class="go-back-btn btn text-white btn-primary main-color-hov bg-gradient">Go Back to Part 1</button>
+	</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						1. Name
+	<p id="general-error-msg" class="bg-danger p-3 d-none"><b>At least one data validation error occured on this page. Please scroll down to see the specific error messages.</b></p>
+
+	<div class="text-center">
+		<h4>Part One - Entrant Information</h4>
+	</div>
+
+	<form method="post" enctype="multipart/form-data" novalidate>
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				1. Name
+			</div>
+			<div class="card-body p-4">
+				<div class="entrant-info d-none">
+					<div>
+						<div>
+							a. Last/Family Name
+						</div>
+						<div id="lname-info" class="px-4"></div>
+					</div>
+					<div>
+						<div>
+							b. First Name
+						</div>
+						<div id="fname-info" class="px-4"></div>
+					</div>
+					<div>
+						<div>
+							c. Middle Name
+						</div>
+						<div id="mname-info" class="px-4"></div>
+					</div>
 				</div>
-				<div class="card-body row p-4">
+
+				<div class="entry-form row">
 					<div class="col">
 						<label for="lname" class="form-label">Last/Family Name</label><br>
-						<input type="text" id="lname" name="last_name" maxlength="33" class="form-control" required>
+						<input type="text" id="lname" name="last_name" pattern="[a-zA-Z`\s\-]+" maxlength="33" class="form-control" required>
 					</div>
 					<div class="col">
 						<label for="fname" class="form-label">First Name</label><br>
-						<input type="text" id="fname" name="first_name" maxlength="33" class="form-control" required>
+						<input type="text" id="fname" name="first_name" pattern="[a-zA-Z`\s\-]+" maxlength="33" class="form-control" required>
 						<div class="p-1 small">
 							<input type="checkbox" id="no-fname">
 							<label for="no-fname" class="form-check-label">No First Name</label>
@@ -37,81 +65,114 @@
 					</div>
 					<div class="col">
 						<label for="mname" class="form-label">Middle Name</label><br>
-						<input type="text" id="mname" name="middle_name" maxlength="33" class="form-control" required>
+						<input type="text" id="mname" name="middle_name" pattern="[a-zA-Z`\s\-]+" maxlength="33" class="form-control" required>
 						<div class="p-1 small">
 							<input type="checkbox" id="no-mname">
 							<label for="no-mname" class="form-check-label">No Middle Name</label>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						2. Gender
+				<div id="name-error-msg" class="mt-3 d-none">
+					<p id="lname-error-msg" class="text-danger d-none"></p>
+					<p id="fname-error-msg" class="text-danger d-none"></p>
+					<p id="mname-error-msg" class="text-danger d-none"></p>
 				</div>
-				<div class="card-body p-4">
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				2. Gender
+			</div>
+			<div class="card-body p-4">
+				<div id="gender-info" class="entrant-info d-none"></div>
+
+				<div class="entry-form">
 					<div class="form-check form-check-inline ps-2">
-						<input type="radio" name="gender" value="male" id="male" required>
+						<input type="radio" name="gender" value="Male" id="male" required>
 						<label for="male" class="form-check-label">
 							Male <i class="bi bi-person-standing fs-1 align-middle"></i>
 						</label>
 					</div>
 					<div class="form-check form-check-inline ps-2">
-						<input type="radio" name="gender" value="female" id="female" required>
+						<input type="radio" name="gender" value="Female" id="female" required>
 						<label for="female" class="form-check-label">
 							Female <i class="bi bi-person-standing-dress fs-1 align-middle"></i>
 						</label>
 					</div>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						3. Birth Date
-				</div>         
-				<div class="card-body p-4">
+				<p id="gender-error-msg" class="text-danger mt-3 d-none"></p>
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				3. Birth Date
+			</div>         
+			<div class="card-body p-4">
+				<div class="entrant-info d-none">
+					<span id="bmonth-info"></span> <span id="bday-info"></span>, <span id="byear-info"></span>
+				</div>
+
+				<div class="entry-form">
 					<div class="d-inline-block pe-4 width-15">
 						<label for="bmonth" class="form-label">Month</label><br>
-						<input type="number" name="birth-month" class="form-control" id="bmonth" placeholder="mm" min="1" max="12" required> 
+						<input type="number" name="birth_month" class="form-control" id="bmonth" placeholder="mm" min="1" max="12" required> 
 					</div>
 					<div class="d-inline-block pe-4 width-15">
 						<label for="bday" class="form-label">Day</label><br>
-						<input type="number" name="birth-day" class="form-control" id="bday" placeholder="dd" min="1" max="31" required>
+						<input type="number" name="birth_day" class="form-control" id="bday" placeholder="dd" min="1" max="31" required>
 					</div>
 					<div class="d-inline-block pe-4 width-25">
 						<label for="byear" class="form-label">Year</label><br>
-						<input type="number" name="birth-year" class="form-control" id="byear" placeholder="yyyy" min="1907" max="2012" required>
+						<input type="number" name="birth_year" class="form-control" id="byear" placeholder="yyyy" min="1907" max="2012" required>
 					</div>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						4. City Where You Were Born
+				<div id="b-error-msg" class="mt-3 d-none">
+					<p id="bmonth-error-msg" class="text-danger d-none"></p>
+					<p id="bday-error-msg" class="text-danger d-none"></p>
+					<p id="byear-error-msg" class="text-danger d-none"></p>
 				</div>
-				<div class="card-body p-4">
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				4. City Where You Were Born
+			</div>
+			<div class="card-body p-4">
+				<div id="bcity-info" class="entrant-info d-none"></div>
+
+				<div class="entry-form">
 					<p class="mb-2">Enter Birth City Only. Do not enter District/County/Province/State.</p>
 					<div>
 						<label for="bcity" class="form-label">Birth City</label><br>
-						<input type="text" id="bcity" name="birth_city" class="form-control width-60" required>
+						<input type="text" id="bcity" name="birth_city" class="form-control width-60" maxlength="33" required>
 						<div class="p-1 small">
 							<input type="checkbox" id="no-bcity">
 							<label for="no-bcity" class="form-check-label">Birth City Unknown</label>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						5. Country Where You Were Born
-				</div>
-				<div class="card-body p-4">
-					<select name="birth_country" class="form-select width-60" required>
+				<p id="bcity-error-msg" class="text-danger mt-3 d-none"></p>
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				5. Country Where You Were Born
+			</div>
+			<div class="card-body p-4">
+				<div id="bcountry-info" class="entrant-info d-none"></div>
+
+				<div class="entry-form">
+					<select name="birth_country" id="bcountry" class="form-select width-60" required>
 						<option value="">Select A Country...</option>
 						<option value="Afghanistan">Afghanistan</option>
-						<option value="Åland Islands">Åland Islands</option>
 						<option value="Albania">Albania</option>
 						<option value="Algeria">Algeria</option>
 						<option value="American Samoa">American Samoa</option>
@@ -169,7 +230,6 @@
 						<option value="Curaçao">Curaçao</option>
 						<option value="Cyprus">Cyprus</option>
 						<option value="Czech Republic">Czechia</option>
-						<option value="Côte d'Ivoire">Côte d’Ivoire</option>
 						<option value="Denmark">Denmark</option>
 						<option value="Djibouti">Djibouti</option>
 						<option value="Dominica">Dominica</option>
@@ -292,11 +352,9 @@
 						<option value="Portugal">Portugal</option>
 						<option value="Puerto Rico">Puerto Rico</option>
 						<option value="Qatar">Qatar</option>
-						<option value="Reunion">Réunion</option>
 						<option value="Romania">Romania</option>
 						<option value="Russian Federation">Russia</option>
 						<option value="Rwanda">Rwanda</option>
-						<option value="Saint Barthelemy">St. Barthélemy</option>
 						<option value="Saint Helena">St. Helena</option>
 						<option value="Saint Kitts and Nevis">St. Kitts & Nevis</option>
 						<option value="Saint Lucia">St. Lucia</option>
@@ -305,7 +363,6 @@
 						<option value="Saint Vincent and the Grenadines">St. Vincent & Grenadines</option>
 						<option value="Samoa">Samoa</option>
 						<option value="San Marino">San Marino</option>
-						<option value="Sao Tome and Principe">São Tomé & Príncipe</option>
 						<option value="Saudi Arabia">Saudi Arabia</option>
 						<option value="Senegal">Senegal</option>
 						<option value="Serbia">Serbia</option>
@@ -339,7 +396,7 @@
 						<option value="Tonga">Tonga</option>
 						<option value="Trinidad and Tobago">Trinidad & Tobago</option>
 						<option value="Tunisia">Tunisia</option>
-						<option value="Turkey (Türkiye)">Türkiye</option>
+						<option value="Turkey">Turkey</option>
 						<option value="Turkmenistan">Turkmenistan</option>
 						<option value="Turks and Caicos Islands">Turks & Caicos Islands</option>
 						<option value="Tuvalu">Tuvalu</option>
@@ -348,7 +405,6 @@
 						<option value="Ukraine">Ukraine</option>
 						<option value="United Arab Emirates">United Arab Emirates</option>
 						<option value="United Kingdom">United Kingdom</option>
-						<option value="United States">United States</option>
 						<option value="Uruguay">Uruguay</option>
 						<option value="Uzbekistan">Uzbekistan</option>
 						<option value="Vanuatu">Vanuatu</option>
@@ -364,30 +420,35 @@
 						<option value="Zimbabwe">Zimbabwe</option>
 					</select>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						6. Country of Eligibility for the DV Program
-				</div>
-				<div class="card-body p-4">
+				<p id="bcountry-error-msg" class="text-danger mt-3 d-none"></p>
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				6. Country of Eligibility for the DV Program
+			</div>
+			<div class="card-body p-4">
+				<div id="elig-country-info" class="entrant-info d-none"></div>
+
+				<div class="entry-form">
 					<p>Your country of eligibility will normally be the same as your country of birth. Your country of eligibility is <b>NOT</b> related to where you live. If you were born in a country that is not eligible  for the DV program, please go to <a href="" class="text-decoration-none">Explanation of Country of Eligibility</a> to see if there is another option available in your case.</p>
 					<div>
 						<p class="mb-1">Are you claiming eligibility based on the country where you were born?</p>
 						<div class="form-check d-inline-block ps-2">
-							<input type="radio" name="bcountry-eligibility" id="yes-bcountry-eligibility">
+							<input type="radio" name="bcountry-eligibility" id="yes-bcountry-eligibility" required>
 							<label for="yes-bcountry-eligibility" class="form-check-label">Yes</label>
 						</div>
 						<div class="form-check d-inline-block ps-2">
-							<input type="radio" name="bcountry-eligibility" id="no-bcountry-eligibility">
+							<input type="radio" name="bcountry-eligibility" id="no-bcountry-eligibility" required>
 							<label for="no-bcountry-eligibility" class="form-check-label">No</label>
 						</div>
 						<div>
 							<label for="elig-country" class="form-label">If not, you must enter the country from which you are clainming eligibility.</label>
-							<select name="eligibility_country" class="form-select width-60" id="elig-country" required>
-								<option value="">Select A Country...</option>
+							<select name="eligibility_country" class="form-select width-60" id="elig-country" required disabled>
+								<option value="" id="select-a-country">Select A Country...</option>
 								<option value="Afghanistan">Afghanistan</option>
-								<option value="Åland Islands">Åland Islands</option>
 								<option value="Albania">Albania</option>
 								<option value="Algeria">Algeria</option>
 								<option value="American Samoa">American Samoa</option>
@@ -445,7 +506,6 @@
 								<option value="Curaçao">Curaçao</option>
 								<option value="Cyprus">Cyprus</option>
 								<option value="Czech Republic">Czechia</option>
-								<option value="Côte d'Ivoire">Côte d’Ivoire</option>
 								<option value="Denmark">Denmark</option>
 								<option value="Djibouti">Djibouti</option>
 								<option value="Dominica">Dominica</option>
@@ -568,11 +628,9 @@
 								<option value="Portugal">Portugal</option>
 								<option value="Puerto Rico">Puerto Rico</option>
 								<option value="Qatar">Qatar</option>
-								<option value="Reunion">Réunion</option>
 								<option value="Romania">Romania</option>
 								<option value="Russian Federation">Russia</option>
 								<option value="Rwanda">Rwanda</option>
-								<option value="Saint Barthelemy">St. Barthélemy</option>
 								<option value="Saint Helena">St. Helena</option>
 								<option value="Saint Kitts and Nevis">St. Kitts & Nevis</option>
 								<option value="Saint Lucia">St. Lucia</option>
@@ -581,7 +639,6 @@
 								<option value="Saint Vincent and the Grenadines">St. Vincent & Grenadines</option>
 								<option value="Samoa">Samoa</option>
 								<option value="San Marino">San Marino</option>
-								<option value="Sao Tome and Principe">São Tomé & Príncipe</option>
 								<option value="Saudi Arabia">Saudi Arabia</option>
 								<option value="Senegal">Senegal</option>
 								<option value="Serbia">Serbia</option>
@@ -615,7 +672,7 @@
 								<option value="Tonga">Tonga</option>
 								<option value="Trinidad and Tobago">Trinidad & Tobago</option>
 								<option value="Tunisia">Tunisia</option>
-								<option value="Turkey (Türkiye)">Türkiye</option>
+								<option value="Turkey">Turkey</option>
 								<option value="Turkmenistan">Turkmenistan</option>
 								<option value="Turks and Caicos Islands">Turks & Caicos Islands</option>
 								<option value="Tuvalu">Tuvalu</option>
@@ -624,7 +681,6 @@
 								<option value="Ukraine">Ukraine</option>
 								<option value="United Arab Emirates">United Arab Emirates</option>
 								<option value="United Kingdom">United Kingdom</option>
-								<option value="United States">United States</option>
 								<option value="Uruguay">Uruguay</option>
 								<option value="Uzbekistan">Uzbekistan</option>
 								<option value="Vanuatu">Vanuatu</option>
@@ -642,13 +698,21 @@
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						7. Entrant Photograph
+				<p id="elig-country-error-msg" class="text-danger mt-3 d-none"></p>
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				7. Entrant Photograph
+			</div>
+			<div class="card-body p-4">
+				<div class="entrant-info d-none">
+					(Photograph received)
 				</div>
-				<div class="card-body p-4">
+
+				<div class="entry-form">
 					<p>Photographs must be submitted at the time of eDV entry. Photographs that do not comply with all specifications, including but not limited to recency of the photos (must be taken in the last six months), composition of the photos, and unacceptable backgrounds are grounds for disqualification of the entire entry. Any manipulation of Photographs that alters the facial characteristics is grounds for disqualification of the entire entry. See examples on the <a href="" class="text-decoration-none">Photo Examples</a> page.</p>
 					<p>Please refer to the Instructions for the 202X Diversity Immigrant Visa program (DV-202X) for technical specifications and compositional specifications for the digital image.</p>
 					<div class="mb-3">
@@ -671,36 +735,90 @@
 							<button type="button" id="entrant-photograph-trigger" class="border border-secondary rounded-1"><span class="small">Choose New Photo</span></button>
 						</div>
 						<div>
-							<img src="" alt="" id="entrant-photograph-show">
+							<img src="" alt="Entrant Photograph" id="entrant-photograph-show" class="d-none">
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						8. Mailing Address
+				<p id="entrant-photograph-error-msg" class="text-danger mt-3 d-none"></p>
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				8. Mailing Address
+			</div>
+			<div class="card-body p-4">
+				<div class="entrant-info d-none">
+					<div>
+						<div>
+							a. In Care Of (optional)
+						</div>
+						<div id="in-care-of-info" class="px-4"></div>
+					</div>
+					<div>
+						<div>
+							b. Address Line 1
+						</div>
+						<div id="address-line1-info" class="px-4"></div>
+					</div>
+					<div>
+						<div>
+							c. Address Line 2 (optional)
+						</div>
+						<div id="address-line2-info" class="px-4"></div>
+					</div>
+					<div>
+						<div>
+							d. City/Town
+						</div>
+						<div id="city-info" class="px-4"></div>
+					</div>
+					<div>
+						<div>
+							e. District/County/Province/State
+						</div>
+						<div id="province-info" class="px-4"></div>
+					</div>
+					<div>
+						<div>
+							f. Postal Code/Zip Code
+						</div>
+						<div id="zcode-info" class="px-4"></div>
+					</div>
+					<div>
+						<div>
+							g. Country
+						</div>
+						<div id="country-info" class="px-4"></div>
+					</div>
 				</div>
-				<div class="card-body p-4">
+
+				<div class="entry-form">
 					<div class="mb-3">
 						<label for="in-care-of" class="form-label">a. In Care Of (optional)</label><br>
 						<input type="text" id="in-care-of" name="in_care_of" maxlength="33" class="form-control width-60">
+						<p id="in-care-of-error-msg" class="text-danger d-none"></p>
 					</div>
 					<div class="mb-3">
 						<label for="address-line1" class="form-label">b. Address Line 1</label><br>
 						<input type="text" id="address-line1" name="address_line_one" maxlength="33" class="form-control width-60" required>
+						<p id="address-line1-error-msg" class="text-danger d-none"></p>
 					</div>
 					<div class="mb-3">
 						<label for="address-line2" class="form-label">c. Address Line 2 (optional)</label><br>
 						<input type="text" id="address-line2" name="address_line_two" maxlength="33" class="form-control width-60">
+						<p id="address-line2-error-msg" class="text-danger d-none"></p>
 					</div>
 					<div class="mb-3">
 						<label for="city" class="form-label">d. City/Town</label><br>
 						<input type="text" id="city" name="city" maxlength="33" class="form-control width-60" required>
+						<p id="city-error-msg" class="text-danger d-none"></p>
 					</div>
 					<div class="mb-3">
 						<label for="province" class="form-label">e. District/Country/Province/State</label><br>
 						<input type="text" id="province" name="province" maxlength="33" class="form-control width-60" required>
+						<p id="province-error-msg" class="text-danger d-none"></p>
 					</div>
 					<div class="mb-3">
 						<label for="zcode" class="form-label">f. Postal Code/Zip Code</label><br>
@@ -709,277 +827,276 @@
 							<input type="checkbox" id="no-zcode">
 							<label for="no-zcode" class="form-check-label">No Postal Code / Zip Code</label>
 						</div>
+						<p id="zcode-error-msg" class="text-danger d-none"></p>
 					</div>
 					<div>
-						<label for="m-country" class="form-label">g. Country</label>
-						<select name="country" class="form-select width-60" id="m-country" required>
-								<option value="">Select A Country...</option>
-								<option value="Afghanistan">Afghanistan</option>
-								<option value="Åland Islands">Åland Islands</option>
-								<option value="Albania">Albania</option>
-								<option value="Algeria">Algeria</option>
-								<option value="American Samoa">American Samoa</option>
-								<option value="Andorra">Andorra</option>
-								<option value="Angola">Angola</option>
-								<option value="Anguilla">Anguilla</option>
-								<option value="Antarctica">Antarctica</option>
-								<option value="Antigua and Barbuda">Antigua & Barbuda</option>
-								<option value="Argentina">Argentina</option>
-								<option value="Armenia">Armenia</option>
-								<option value="Aruba">Aruba</option>
-								<option value="Australia">Australia</option>
-								<option value="Austria">Austria</option>
-								<option value="Azerbaijan">Azerbaijan</option>
-								<option value="Bahamas">Bahamas</option>
-								<option value="Bahrain">Bahrain</option>
-								<option value="Bangladesh">Bangladesh</option>
-								<option value="Barbados">Barbados</option>
-								<option value="Belarus">Belarus</option>
-								<option value="Belgium">Belgium</option>
-								<option value="Belize">Belize</option>
-								<option value="Benin">Benin</option>
-								<option value="Bermuda">Bermuda</option>
-								<option value="Bhutan">Bhutan</option>
-								<option value="Bolivia (Plurinational State of)">Bolivia</option>
-								<option value="Bosnia and Herzegovina">Bosnia & Herzegovina</option>
-								<option value="Botswana">Botswana</option>
-								<option value="Bouvet Island">Bouvet Island</option>
-								<option value="Brazil">Brazil</option>
-								<option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
-								<option value="Brunei Darussalam">Brunei</option>
-								<option value="Bulgaria">Bulgaria</option>
-								<option value="Burkina Faso">Burkina Faso</option>
-								<option value="Burundi">Burundi</option>
-								<option value="Cabo Verde">Cape Verde</option>
-								<option value="Cambodia">Cambodia</option>
-								<option value="Cameroon">Cameroon</option>
-								<option value="Canada">Canada</option>
-								<option value="Caribbean Netherlands">Caribbean Netherlands</option>
-								<option value="Cayman Islands">Cayman Islands</option>
-								<option value="Central African Republic">Central African Republic</option>
-								<option value="Chad">Chad</option>
-								<option value="Chile">Chile</option>
-								<option value="China">China</option>
-								<option value="Christmas Island">Christmas Island</option>
-								<option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
-								<option value="Colombia">Colombia</option>
-								<option value="Comoros">Comoros</option>
-								<option value="Congo">Congo - Brazzaville</option>
-								<option value="Congo, Democratic Republic of the">Congo - Kinshasa</option>
-								<option value="Cook Islands">Cook Islands</option>
-								<option value="Costa Rica">Costa Rica</option>
-								<option value="Croatia">Croatia</option>
-								<option value="Cuba">Cuba</option>
-								<option value="Curaçao">Curaçao</option>
-								<option value="Cyprus">Cyprus</option>
-								<option value="Czech Republic">Czechia</option>
-								<option value="Côte d'Ivoire">Côte d’Ivoire</option>
-								<option value="Denmark">Denmark</option>
-								<option value="Djibouti">Djibouti</option>
-								<option value="Dominica">Dominica</option>
-								<option value="Dominican Republic">Dominican Republic</option>
-								<option value="Ecuador">Ecuador</option>
-								<option value="Egypt">Egypt</option>
-								<option value="El Salvador">El Salvador</option>
-								<option value="Equatorial Guinea">Equatorial Guinea</option>
-								<option value="Eritrea">Eritrea</option>
-								<option value="Estonia">Estonia</option>
-								<option value="Eswatini (Swaziland)">Eswatini</option>
-								<option value="Ethiopia">Ethiopia</option>
-								<option value="Falkland Islands (Malvinas)">Falkland Islands (Islas Malvinas)</option>
-								<option value="Faroe Islands">Faroe Islands</option>
-								<option value="Fiji">Fiji</option>
-								<option value="Finland">Finland</option>
-								<option value="France">France</option>
-								<option value="French Guiana">French Guiana</option>
-								<option value="French Polynesia">French Polynesia</option>
-								<option value="French Southern Territories">French Southern Territories</option>
-								<option value="Gabon">Gabon</option>
-								<option value="Gambia">Gambia</option>
-								<option value="Georgia">Georgia</option>
-								<option value="Germany">Germany</option>
-								<option value="Ghana">Ghana</option>
-								<option value="Gibraltar">Gibraltar</option>
-								<option value="Greece">Greece</option>
-								<option value="Greenland">Greenland</option>
-								<option value="Grenada">Grenada</option>
-								<option value="Guadeloupe">Guadeloupe</option>
-								<option value="Guam">Guam</option>
-								<option value="Guatemala">Guatemala</option>
-								<option value="Guernsey">Guernsey</option>
-								<option value="Guinea">Guinea</option>
-								<option value="Guinea-Bissau">Guinea-Bissau</option>
-								<option value="Guyana">Guyana</option>
-								<option value="Haiti">Haiti</option>
-								<option value="Heard Island and Mcdonald Islands">Heard & McDonald Islands</option>
-								<option value="Honduras">Honduras</option>
-								<option value="Hong Kong">Hong Kong</option>
-								<option value="Hungary">Hungary</option>
-								<option value="Iceland">Iceland</option>
-								<option value="India">India</option>
-								<option value="Indonesia">Indonesia</option>
-								<option value="Iran">Iran</option>
-								<option value="Iraq">Iraq</option>
-								<option value="Ireland">Ireland</option>
-								<option value="Isle of Man">Isle of Man</option>
-								<option value="Israel">Israel</option>
-								<option value="Italy">Italy</option>
-								<option value="Jamaica">Jamaica</option>
-								<option value="Japan">Japan</option>
-								<option value="Jersey">Jersey</option>
-								<option value="Jordan">Jordan</option>
-								<option value="Kazakhstan">Kazakhstan</option>
-								<option value="Kenya">Kenya</option>
-								<option value="Kiribati">Kiribati</option>
-								<option value="Korea, North">North Korea</option>
-								<option value="Korea, South">South Korea</option>
-								<option value="Kosovo">Kosovo</option>
-								<option value="Kuwait">Kuwait</option>
-								<option value="Kyrgyzstan">Kyrgyzstan</option>
-								<option value="Lao People's Democratic Republic">Laos</option>
-								<option value="Latvia">Latvia</option>
-								<option value="Lebanon">Lebanon</option>
-								<option value="Lesotho">Lesotho</option>
-								<option value="Liberia">Liberia</option>
-								<option value="Libya">Libya</option>
-								<option value="Liechtenstein">Liechtenstein</option>
-								<option value="Lithuania">Lithuania</option>
-								<option value="Luxembourg">Luxembourg</option>
-								<option value="Macao">Macao</option>
-								<option value="Macedonia North">North Macedonia</option>
-								<option value="Madagascar">Madagascar</option>
-								<option value="Malawi">Malawi</option>
-								<option value="Malaysia">Malaysia</option>
-								<option value="Maldives">Maldives</option>
-								<option value="Mali">Mali</option>
-								<option value="Malta">Malta</option>
-								<option value="Marshall Islands">Marshall Islands</option>
-								<option value="Martinique">Martinique</option>
-								<option value="Mauritania">Mauritania</option>
-								<option value="Mauritius">Mauritius</option>
-								<option value="Mayotte">Mayotte</option>
-								<option value="Mexico">Mexico</option>
-								<option value="Micronesia">Micronesia</option>
-								<option value="Moldova">Moldova</option>
-								<option value="Monaco">Monaco</option>
-								<option value="Mongolia">Mongolia</option>
-								<option value="Montenegro">Montenegro</option>
-								<option value="Montserrat">Montserrat</option>
-								<option value="Morocco">Morocco</option>
-								<option value="Mozambique">Mozambique</option>
-								<option value="Myanmar (Burma)">Myanmar (Burma)</option>
-								<option value="Namibia">Namibia</option>
-								<option value="Nauru">Nauru</option>
-								<option value="Nepal">Nepal</option>
-								<option value="Netherlands">Netherlands</option>
-								<option value="Netherlands Antilles">Curaçao</option>
-								<option value="New Caledonia">New Caledonia</option>
-								<option value="New Zealand">New Zealand</option>
-								<option value="Nicaragua">Nicaragua</option>
-								<option value="Niger">Niger</option>
-								<option value="Nigeria">Nigeria</option>
-								<option value="Niue">Niue</option>
-								<option value="Norfolk Island">Norfolk Island</option>
-								<option value="Northern Mariana Islands">Northern Mariana Islands</option>
-								<option value="Norway">Norway</option>
-								<option value="Oman">Oman</option>
-								<option value="Pakistan">Pakistan</option>
-								<option value="Palau">Palau</option>
-								<option value="Palestine">Palestine</option>
-								<option value="Panama">Panama</option>
-								<option value="Papua New Guinea">Papua New Guinea</option>
-								<option value="Paraguay">Paraguay</option>
-								<option value="Peru">Peru</option>
-								<option value="Philippines">Philippines</option>
-								<option value="Pitcairn Islands">Pitcairn Islands</option>
-								<option value="Poland">Poland</option>
-								<option value="Portugal">Portugal</option>
-								<option value="Puerto Rico">Puerto Rico</option>
-								<option value="Qatar">Qatar</option>
-								<option value="Reunion">Réunion</option>
-								<option value="Romania">Romania</option>
-								<option value="Russian Federation">Russia</option>
-								<option value="Rwanda">Rwanda</option>
-								<option value="Saint Barthelemy">St. Barthélemy</option>
-								<option value="Saint Helena">St. Helena</option>
-								<option value="Saint Kitts and Nevis">St. Kitts & Nevis</option>
-								<option value="Saint Lucia">St. Lucia</option>
-								<option value="Saint Martin">St. Martin</option>
-								<option value="Saint Pierre and Miquelon">St. Pierre & Miquelon</option>
-								<option value="Saint Vincent and the Grenadines">St. Vincent & Grenadines</option>
-								<option value="Samoa">Samoa</option>
-								<option value="San Marino">San Marino</option>
-								<option value="Sao Tome and Principe">São Tomé & Príncipe</option>
-								<option value="Saudi Arabia">Saudi Arabia</option>
-								<option value="Senegal">Senegal</option>
-								<option value="Serbia">Serbia</option>
-								<option value="Serbia and Montenegro">Serbia</option>
-								<option value="Seychelles">Seychelles</option>
-								<option value="Sierra Leone">Sierra Leone</option>
-								<option value="Singapore">Singapore</option>
-								<option value="Sint Maarten">Sint Maarten</option>
-								<option value="Slovakia">Slovakia</option>
-								<option value="Slovenia">Slovenia</option>
-								<option value="Solomon Islands">Solomon Islands</option>
-								<option value="Somalia">Somalia</option>
-								<option value="South Africa">South Africa</option>
-								<option value="South Georgia and the South Sandwich Islands">South Georgia & South Sandwich Islands</option>
-								<option value="South Sudan">South Sudan</option>
-								<option value="Spain">Spain</option>
-								<option value="Sri Lanka">Sri Lanka</option>
-								<option value="Sudan">Sudan</option>
-								<option value="Suriname">Suriname</option>
-								<option value="Svalbard and Jan Mayen">Svalbard & Jan Mayen</option>
-								<option value="Sweden">Sweden</option>
-								<option value="Switzerland">Switzerland</option>
-								<option value="Syria">Syria</option>
-								<option value="Taiwan">Taiwan</option>
-								<option value="Tajikistan">Tajikistan</option>
-								<option value="Tanzania">Tanzania</option>
-								<option value="Thailand">Thailand</option>
-								<option value="Timor-Leste">Timor-Leste</option>
-								<option value="Togo">Togo</option>
-								<option value="Tokelau">Tokelau</option>
-								<option value="Tonga">Tonga</option>
-								<option value="Trinidad and Tobago">Trinidad & Tobago</option>
-								<option value="Tunisia">Tunisia</option>
-								<option value="Turkey (Türkiye)">Türkiye</option>
-								<option value="Turkmenistan">Turkmenistan</option>
-								<option value="Turks and Caicos Islands">Turks & Caicos Islands</option>
-								<option value="Tuvalu">Tuvalu</option>
-								<option value="U.S. Outlying Islands">U.S. Outlying Islands</option>
-								<option value="Uganda">Uganda</option>
-								<option value="Ukraine">Ukraine</option>
-								<option value="United Arab Emirates">United Arab Emirates</option>
-								<option value="United Kingdom">United Kingdom</option>
-								<option value="United States">United States</option>
-								<option value="Uruguay">Uruguay</option>
-								<option value="Uzbekistan">Uzbekistan</option>
-								<option value="Vanuatu">Vanuatu</option>
-								<option value="Vatican City Holy See">Vatican City</option>
-								<option value="Venezuela">Venezuela</option>
-								<option value="Vietnam">Vietnam</option>
-								<option value="Virgin Islands, British">British Virgin Islands</option>
-								<option value="Virgin Islands, U.S">U.S. Virgin Islands</option>
-								<option value="Wallis and Futuna">Wallis & Futuna</option>
-								<option value="Western Sahara">Western Sahara</option>
-								<option value="Yemen">Yemen</option>
-								<option value="Zambia">Zambia</option>
-								<option value="Zimbabwe">Zimbabwe</option>
-							</select>
+						<label for="country" class="form-label">g. Country</label>
+						<select name="country" class="form-select width-60" id="country" required>
+							<option value="">Select A Country...</option>
+							<option value="Afghanistan">Afghanistan</option>
+							<option value="Albania">Albania</option>
+							<option value="Algeria">Algeria</option>
+							<option value="American Samoa">American Samoa</option>
+							<option value="Andorra">Andorra</option>
+							<option value="Angola">Angola</option>
+							<option value="Anguilla">Anguilla</option>
+							<option value="Antarctica">Antarctica</option>
+							<option value="Antigua and Barbuda">Antigua & Barbuda</option>
+							<option value="Argentina">Argentina</option>
+							<option value="Armenia">Armenia</option>
+							<option value="Aruba">Aruba</option>
+							<option value="Australia">Australia</option>
+							<option value="Austria">Austria</option>
+							<option value="Azerbaijan">Azerbaijan</option>
+							<option value="Bahamas">Bahamas</option>
+							<option value="Bahrain">Bahrain</option>
+							<option value="Bangladesh">Bangladesh</option>
+							<option value="Barbados">Barbados</option>
+							<option value="Belarus">Belarus</option>
+							<option value="Belgium">Belgium</option>
+							<option value="Belize">Belize</option>
+							<option value="Benin">Benin</option>
+							<option value="Bermuda">Bermuda</option>
+							<option value="Bhutan">Bhutan</option>
+							<option value="Bolivia (Plurinational State of)">Bolivia</option>
+							<option value="Bosnia and Herzegovina">Bosnia & Herzegovina</option>
+							<option value="Botswana">Botswana</option>
+							<option value="Bouvet Island">Bouvet Island</option>
+							<option value="Brazil">Brazil</option>
+							<option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
+							<option value="Brunei Darussalam">Brunei</option>
+							<option value="Bulgaria">Bulgaria</option>
+							<option value="Burkina Faso">Burkina Faso</option>
+							<option value="Burundi">Burundi</option>
+							<option value="Cabo Verde">Cape Verde</option>
+							<option value="Cambodia">Cambodia</option>
+							<option value="Cameroon">Cameroon</option>
+							<option value="Canada">Canada</option>
+							<option value="Caribbean Netherlands">Caribbean Netherlands</option>
+							<option value="Cayman Islands">Cayman Islands</option>
+							<option value="Central African Republic">Central African Republic</option>
+							<option value="Chad">Chad</option>
+							<option value="Chile">Chile</option>
+							<option value="China">China</option>
+							<option value="Christmas Island">Christmas Island</option>
+							<option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
+							<option value="Colombia">Colombia</option>
+							<option value="Comoros">Comoros</option>
+							<option value="Congo">Congo - Brazzaville</option>
+							<option value="Congo, Democratic Republic of the">Congo - Kinshasa</option>
+							<option value="Cook Islands">Cook Islands</option>
+							<option value="Costa Rica">Costa Rica</option>
+							<option value="Croatia">Croatia</option>
+							<option value="Cuba">Cuba</option>
+							<option value="Curaçao">Curaçao</option>
+							<option value="Cyprus">Cyprus</option>
+							<option value="Czech Republic">Czechia</option>
+							<option value="Denmark">Denmark</option>
+							<option value="Djibouti">Djibouti</option>
+							<option value="Dominica">Dominica</option>
+							<option value="Dominican Republic">Dominican Republic</option>
+							<option value="Ecuador">Ecuador</option>
+							<option value="Egypt">Egypt</option>
+							<option value="El Salvador">El Salvador</option>
+							<option value="Equatorial Guinea">Equatorial Guinea</option>
+							<option value="Eritrea">Eritrea</option>
+							<option value="Estonia">Estonia</option>
+							<option value="Eswatini (Swaziland)">Eswatini</option>
+							<option value="Ethiopia">Ethiopia</option>
+							<option value="Falkland Islands (Malvinas)">Falkland Islands (Islas Malvinas)</option>
+							<option value="Faroe Islands">Faroe Islands</option>
+							<option value="Fiji">Fiji</option>
+							<option value="Finland">Finland</option>
+							<option value="France">France</option>
+							<option value="French Guiana">French Guiana</option>
+							<option value="French Polynesia">French Polynesia</option>
+							<option value="French Southern Territories">French Southern Territories</option>
+							<option value="Gabon">Gabon</option>
+							<option value="Gambia">Gambia</option>
+							<option value="Georgia">Georgia</option>
+							<option value="Germany">Germany</option>
+							<option value="Ghana">Ghana</option>
+							<option value="Gibraltar">Gibraltar</option>
+							<option value="Greece">Greece</option>
+							<option value="Greenland">Greenland</option>
+							<option value="Grenada">Grenada</option>
+							<option value="Guadeloupe">Guadeloupe</option>
+							<option value="Guam">Guam</option>
+							<option value="Guatemala">Guatemala</option>
+							<option value="Guernsey">Guernsey</option>
+							<option value="Guinea">Guinea</option>
+							<option value="Guinea-Bissau">Guinea-Bissau</option>
+							<option value="Guyana">Guyana</option>
+							<option value="Haiti">Haiti</option>
+							<option value="Heard Island and Mcdonald Islands">Heard & McDonald Islands</option>
+							<option value="Honduras">Honduras</option>
+							<option value="Hong Kong">Hong Kong</option>
+							<option value="Hungary">Hungary</option>
+							<option value="Iceland">Iceland</option>
+							<option value="India">India</option>
+							<option value="Indonesia">Indonesia</option>
+							<option value="Iran">Iran</option>
+							<option value="Iraq">Iraq</option>
+							<option value="Ireland">Ireland</option>
+							<option value="Isle of Man">Isle of Man</option>
+							<option value="Israel">Israel</option>
+							<option value="Italy">Italy</option>
+							<option value="Jamaica">Jamaica</option>
+							<option value="Japan">Japan</option>
+							<option value="Jersey">Jersey</option>
+							<option value="Jordan">Jordan</option>
+							<option value="Kazakhstan">Kazakhstan</option>
+							<option value="Kenya">Kenya</option>
+							<option value="Kiribati">Kiribati</option>
+							<option value="Korea, North">North Korea</option>
+							<option value="Korea, South">South Korea</option>
+							<option value="Kosovo">Kosovo</option>
+							<option value="Kuwait">Kuwait</option>
+							<option value="Kyrgyzstan">Kyrgyzstan</option>
+							<option value="Lao People's Democratic Republic">Laos</option>
+							<option value="Latvia">Latvia</option>
+							<option value="Lebanon">Lebanon</option>
+							<option value="Lesotho">Lesotho</option>
+							<option value="Liberia">Liberia</option>
+							<option value="Libya">Libya</option>
+							<option value="Liechtenstein">Liechtenstein</option>
+							<option value="Lithuania">Lithuania</option>
+							<option value="Luxembourg">Luxembourg</option>
+							<option value="Macao">Macao</option>
+							<option value="Macedonia North">North Macedonia</option>
+							<option value="Madagascar">Madagascar</option>
+							<option value="Malawi">Malawi</option>
+							<option value="Malaysia">Malaysia</option>
+							<option value="Maldives">Maldives</option>
+							<option value="Mali">Mali</option>
+							<option value="Malta">Malta</option>
+							<option value="Marshall Islands">Marshall Islands</option>
+							<option value="Martinique">Martinique</option>
+							<option value="Mauritania">Mauritania</option>
+							<option value="Mauritius">Mauritius</option>
+							<option value="Mayotte">Mayotte</option>
+							<option value="Mexico">Mexico</option>
+							<option value="Micronesia">Micronesia</option>
+							<option value="Moldova">Moldova</option>
+							<option value="Monaco">Monaco</option>
+							<option value="Mongolia">Mongolia</option>
+							<option value="Montenegro">Montenegro</option>
+							<option value="Montserrat">Montserrat</option>
+							<option value="Morocco">Morocco</option>
+							<option value="Mozambique">Mozambique</option>
+							<option value="Myanmar (Burma)">Myanmar (Burma)</option>
+							<option value="Namibia">Namibia</option>
+							<option value="Nauru">Nauru</option>
+							<option value="Nepal">Nepal</option>
+							<option value="Netherlands">Netherlands</option>
+							<option value="Netherlands Antilles">Curaçao</option>
+							<option value="New Caledonia">New Caledonia</option>
+							<option value="New Zealand">New Zealand</option>
+							<option value="Nicaragua">Nicaragua</option>
+							<option value="Niger">Niger</option>
+							<option value="Nigeria">Nigeria</option>
+							<option value="Niue">Niue</option>
+							<option value="Norfolk Island">Norfolk Island</option>
+							<option value="Northern Mariana Islands">Northern Mariana Islands</option>
+							<option value="Norway">Norway</option>
+							<option value="Oman">Oman</option>
+							<option value="Pakistan">Pakistan</option>
+							<option value="Palau">Palau</option>
+							<option value="Palestine">Palestine</option>
+							<option value="Panama">Panama</option>
+							<option value="Papua New Guinea">Papua New Guinea</option>
+							<option value="Paraguay">Paraguay</option>
+							<option value="Peru">Peru</option>
+							<option value="Philippines">Philippines</option>
+							<option value="Pitcairn Islands">Pitcairn Islands</option>
+							<option value="Poland">Poland</option>
+							<option value="Portugal">Portugal</option>
+							<option value="Puerto Rico">Puerto Rico</option>
+							<option value="Qatar">Qatar</option>
+							<option value="Romania">Romania</option>
+							<option value="Russian Federation">Russia</option>
+							<option value="Rwanda">Rwanda</option>
+							<option value="Saint Helena">St. Helena</option>
+							<option value="Saint Kitts and Nevis">St. Kitts & Nevis</option>
+							<option value="Saint Lucia">St. Lucia</option>
+							<option value="Saint Martin">St. Martin</option>
+							<option value="Saint Pierre and Miquelon">St. Pierre & Miquelon</option>
+							<option value="Saint Vincent and the Grenadines">St. Vincent & Grenadines</option>
+							<option value="Samoa">Samoa</option>
+							<option value="San Marino">San Marino</option>
+							<option value="Saudi Arabia">Saudi Arabia</option>
+							<option value="Senegal">Senegal</option>
+							<option value="Serbia">Serbia</option>
+							<option value="Serbia and Montenegro">Serbia</option>
+							<option value="Seychelles">Seychelles</option>
+							<option value="Sierra Leone">Sierra Leone</option>
+							<option value="Singapore">Singapore</option>
+							<option value="Sint Maarten">Sint Maarten</option>
+							<option value="Slovakia">Slovakia</option>
+							<option value="Slovenia">Slovenia</option>
+							<option value="Solomon Islands">Solomon Islands</option>
+							<option value="Somalia">Somalia</option>
+							<option value="South Africa">South Africa</option>
+							<option value="South Georgia and the South Sandwich Islands">South Georgia & South Sandwich Islands</option>
+							<option value="South Sudan">South Sudan</option>
+							<option value="Spain">Spain</option>
+							<option value="Sri Lanka">Sri Lanka</option>
+							<option value="Sudan">Sudan</option>
+							<option value="Suriname">Suriname</option>
+							<option value="Svalbard and Jan Mayen">Svalbard & Jan Mayen</option>
+							<option value="Sweden">Sweden</option>
+							<option value="Switzerland">Switzerland</option>
+							<option value="Syria">Syria</option>
+							<option value="Taiwan">Taiwan</option>
+							<option value="Tajikistan">Tajikistan</option>
+							<option value="Tanzania">Tanzania</option>
+							<option value="Thailand">Thailand</option>
+							<option value="Timor-Leste">Timor-Leste</option>
+							<option value="Togo">Togo</option>
+							<option value="Tokelau">Tokelau</option>
+							<option value="Tonga">Tonga</option>
+							<option value="Trinidad and Tobago">Trinidad & Tobago</option>
+							<option value="Tunisia">Tunisia</option>
+							<option value="Turkey">Turkey</option>
+							<option value="Turkmenistan">Turkmenistan</option>
+							<option value="Turks and Caicos Islands">Turks & Caicos Islands</option>
+							<option value="Tuvalu">Tuvalu</option>
+							<option value="U.S. Outlying Islands">U.S. Outlying Islands</option>
+							<option value="Uganda">Uganda</option>
+							<option value="Ukraine">Ukraine</option>
+							<option value="United Arab Emirates">United Arab Emirates</option>
+							<option value="United Kingdom">United Kingdom</option>
+							<option value="Uruguay">Uruguay</option>
+							<option value="Uzbekistan">Uzbekistan</option>
+							<option value="Vanuatu">Vanuatu</option>
+							<option value="Vatican City Holy See">Vatican City</option>
+							<option value="Venezuela">Venezuela</option>
+							<option value="Vietnam">Vietnam</option>
+							<option value="Virgin Islands, British">British Virgin Islands</option>
+							<option value="Virgin Islands, U.S">U.S. Virgin Islands</option>
+							<option value="Wallis and Futuna">Wallis & Futuna</option>
+							<option value="Western Sahara">Western Sahara</option>
+							<option value="Yemen">Yemen</option>
+							<option value="Zambia">Zambia</option>
+							<option value="Zimbabwe">Zimbabwe</option>
+						</select>
+						<p id="country-error-msg" class="text-danger d-none"></p>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						9. Country Where You Live Today
-				</div>
-				<div class="card-body p-4">
-					<select name="residence_country" class="form-select width-60" required>
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				9. Country Where You Live Today
+			</div>
+			<div class="card-body p-4">
+				<div id="residence-country-info" class="entrant-info d-none"></div>
+
+				<div class="entry-form">
+					<select name="residence_country" id="residence-country" class="form-select width-60" required>
 						<option value="">Select A Country...</option>
 						<option value="Afghanistan">Afghanistan</option>
-						<option value="Åland Islands">Åland Islands</option>
 						<option value="Albania">Albania</option>
 						<option value="Algeria">Algeria</option>
 						<option value="American Samoa">American Samoa</option>
@@ -1037,7 +1154,6 @@
 						<option value="Curaçao">Curaçao</option>
 						<option value="Cyprus">Cyprus</option>
 						<option value="Czech Republic">Czechia</option>
-						<option value="Côte d'Ivoire">Côte d’Ivoire</option>
 						<option value="Denmark">Denmark</option>
 						<option value="Djibouti">Djibouti</option>
 						<option value="Dominica">Dominica</option>
@@ -1160,11 +1276,9 @@
 						<option value="Portugal">Portugal</option>
 						<option value="Puerto Rico">Puerto Rico</option>
 						<option value="Qatar">Qatar</option>
-						<option value="Reunion">Réunion</option>
 						<option value="Romania">Romania</option>
 						<option value="Russian Federation">Russia</option>
 						<option value="Rwanda">Rwanda</option>
-						<option value="Saint Barthelemy">St. Barthélemy</option>
 						<option value="Saint Helena">St. Helena</option>
 						<option value="Saint Kitts and Nevis">St. Kitts & Nevis</option>
 						<option value="Saint Lucia">St. Lucia</option>
@@ -1173,7 +1287,6 @@
 						<option value="Saint Vincent and the Grenadines">St. Vincent & Grenadines</option>
 						<option value="Samoa">Samoa</option>
 						<option value="San Marino">San Marino</option>
-						<option value="Sao Tome and Principe">São Tomé & Príncipe</option>
 						<option value="Saudi Arabia">Saudi Arabia</option>
 						<option value="Senegal">Senegal</option>
 						<option value="Serbia">Serbia</option>
@@ -1207,7 +1320,7 @@
 						<option value="Tonga">Tonga</option>
 						<option value="Trinidad and Tobago">Trinidad & Tobago</option>
 						<option value="Tunisia">Tunisia</option>
-						<option value="Turkey (Türkiye)">Türkiye</option>
+						<option value="Turkey">Turkey</option>
 						<option value="Turkmenistan">Turkmenistan</option>
 						<option value="Turks and Caicos Islands">Turks & Caicos Islands</option>
 						<option value="Tuvalu">Tuvalu</option>
@@ -1216,7 +1329,6 @@
 						<option value="Ukraine">Ukraine</option>
 						<option value="United Arab Emirates">United Arab Emirates</option>
 						<option value="United Kingdom">United Kingdom</option>
-						<option value="United States">United States</option>
 						<option value="Uruguay">Uruguay</option>
 						<option value="Uzbekistan">Uzbekistan</option>
 						<option value="Vanuatu">Vanuatu</option>
@@ -1232,46 +1344,65 @@
 						<option value="Zimbabwe">Zimbabwe</option>
 					</select>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						10. Phone Number
-				</div>
-				<div class="card-body p-4">
-					<input type="tel" name="phone_number" class="form-control width-60">
+				<p id="residence-country-error-msg" class="text-danger mt-3 d-none"></p>
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				10. Phone Number
+			</div>
+			<div class="card-body p-4">
+				<div id="phone-info" class="entrant-info d-none"></div>
+
+				<div class="entry-form">
+					<input type="tel" name="phone_number" id="phone" class="form-control width-60" maxlength="33">
 					<div class="form-text">
 						<span class="small">(optional)</span>
 					</div>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						11. E-mail Address
-				</div>
-				<div class="card-body p-4">
+				<p id="phone-error-msg" class="text-danger mt-3 d-none"></p>
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+				11. E-mail Address
+			</div>
+			<div class="card-body p-4">
+				<div id="email-address-info" class="entrant-info d-none"></div>
+
+				<div class="entry-form">
 					<div class="mb-3">
 						<label for="email-address" class="form-label">a. E-Mail Address <span>(e.g. johndoe@example.com)</span></label><br>
-						<input type="email" id="email-address" name="email_address" class="form-control width-60" required>
+						<input type="email" id="email-address" name="email_address" class="form-control width-60" maxlength="33" required>
 					</div>
 					<div>
-						<label for="confirm-email-address" class="form-label">b. Confirm E-Mail Address</label><br>
-						<input type="email" id="confirm-email-address" class="form-control width-60" autocomplete="off" required>
-						<div class="form-text">
-							<span class="small">
-								(NOTE: This e-mail address will be used to provide you with additional information if you are selected.)
-							</span>
-						</div>
+						<label for="email-address-confirm" class="form-label">b. Confirm E-Mail Address</label><br>
+						<input type="text" id="email-address-confirm" onpaste="return false;" class="form-control width-60" maxlength="33" autocomplete="off" disabled required>
 					</div>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						12. What is the highest level of education you have achieved, as of today?
+				<div class="form-text">
+					<span class="small">
+						(NOTE: This e-mail address will be used to provide you with additional information if you are selected.)
+					</span>
 				</div>
-				<div class="card-body p-4">
+
+				<p id="email-address-error-msg" class="text-danger mt-3 d-none"></p>
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+					12. What is the highest level of education you have achieved, as of today?
+			</div>
+			<div class="card-body p-4">
+				<div id="education-info" class="entrant-info d-none"></div>
+				
+				<div class="entry-form">
 					<div class="form-check ps-2">
 						<input type="radio" name="education_level" value="Primary school only" id="pso" required>
 						<label for="pso" class="form-check-label">Primary school only</label>
@@ -1312,17 +1443,24 @@
 						<input type="radio" name="education_level" value="Doctorate Degree" id="dd" required>
 						<label for="dd" class="form-check-label">Doctorate Degree</label>
 					</div>
-					<p class="mt-2">
-						You must have a minimum of a high school diploma reflecting the completion of a full course of study (vocation schools or equivalency degrees are not acceptable) or be a skilled worker in an occupation that requires at least two years of training or experience to qualify (visit <a href="" class="text-decoration-none">http://www.onetonline.org/</a> to see if your occupation qualifies) for a Diversity Visa.
-					</p>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						13. What is your current marital status?
-				</div>
-				<div class="card-body p-4">
+				<p id="education-error-msg" class="text-danger mt-3 d-none"></p>
+
+				<p class="mt-2">
+					You must have a minimum of a high school diploma reflecting the completion of a full course of study (vocation schools or equivalency degrees are not acceptable) or be a skilled worker in an occupation that requires at least two years of training or experience to qualify (visit <a href="" class="text-decoration-none">http://www.onetonline.org/</a> to see if your occupation qualifies) for a Diversity Visa.
+				</p>
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+					13. What is your current marital status?
+			</div>
+			<div class="card-body p-4">
+				<div id="marital-status-info" class="entrant-info d-none"></div>
+
+				<div class="entry-form">
 					<div class="form-check ps-2">
 						<input type="radio" name="marital_status" value="Unmarried" id="unmarried" required>
 						<label for="unmarried" class="form-check-label">Unmarried</label>
@@ -1351,31 +1489,48 @@
 							<label for="spouse-info" class="form-check-label">Enter Spouse Information</label>
 						</div>
 					</div>
-					<p class="mt-2">Legal separation is an arrangement when a couple remain married but live apart, following a court order. If you and your spouse are legally separated, your spouse will not be able to immigrate with you through the Diversity Visa program. You will not be penalized if you choose to enter the name of a spouse from whom you are legally separated.</p>
-					<p>If you are not legally separated by a court order, you must include your spouse even if you plan to be divorced before you apply for the Diversity Visa. Failure to list your eligible spouse is grounds for disqualification.</p>
-					<p>If your spouse is a U.S. citizen or Lawful Permanent Resident, do not list him/her in your entry.</p>
 				</div>
-			</div>
 
-			<div class="card rounded-1 mb-4">
-				<div class="card-header fw-medium head-color">
-						14. Number of Children
-				</div>
-				<div class="card-body p-4">
+				<p id="marital-status-error-msg" class="text-danger mt-3 d-none"></p>
+
+				<p class="mt-2">Legal separation is an arrangement when a couple remain married but live apart, following a court order. If you and your spouse are legally separated, your spouse will not be able to immigrate with you through the Diversity Visa program. You will not be penalized if you choose to enter the name of a spouse from whom you are legally separated.</p>
+				<p>If you are not legally separated by a court order, you must include your spouse even if you plan to be divorced before you apply for the Diversity Visa. Failure to list your eligible spouse is grounds for disqualification.</p>
+				<p>If your spouse is a U.S. citizen or Lawful Permanent Resident, do not list him/her in your entry.</p>
+			</div>
+		</div>
+
+		<div class="card rounded-1 mb-4">
+			<div class="card-header fw-medium head-color">
+					14. Number of Children
+			</div>
+			<div class="card-body p-4">
+				<div id="children-number-info" class="entrant-info d-none"></div>
+
+				<div class="entry-form">
 					<div class="mb-3">
-						<input type="number" name="children_number" class="form-control width-25" min="0" max="20" required>
+						<input type="number" name="children_number" id="children-number" class="form-control width-25" min="0" max="20" required>
 					</div>
-					<p class="mt-2">Children include all biological children, legally adopted children, and stepchildren who are unmarried and under the age of 21 on the date you submit your entry. You must include all eligible children, even if they do not live with you or if they do not intend to apply for a Diversity Visa as your derivative. Failure to list all eligible children is ground for disqualification. If your child is a U.S. citizen or Lawful Permanent Resident, do not list him/her in your entry.</p>
 				</div>
-			</div>
 
-			<div class="mb-4 pb-3">
-				<button type="submit" class="btn text-white main-color-hov bg-gradient">Continue</button>
-				<a href="{% url 'entry_form:cancel' %}" class="btn text-white main-color-hov bg-gradient">Cancel Entry</a>
+				<p id="children-number-error-msg" class="text-danger mt-3 d-none"></p>
+
+				<p class="mt-2">Children include all biological children, legally adopted children, and stepchildren who are unmarried and under the age of 21 on the date you submit your entry. You must include all eligible children, even if they do not live with you or if they do not intend to apply for a Diversity Visa as your derivative. Failure to list all eligible children is ground for disqualification. If your child is a U.S. citizen or Lawful Permanent Resident, do not list him/her in your entry.</p>
 			</div>
-		</form>
-		<p class="small"><b>PAPERWORK REDUCTION ACT:</b> Public reporting burden for this collection of information is estimated to average 30 minutes per response, including time require for searching existing data sources, gathering the necessary documentation, providing the information and/or documents required, and reviewing the final collection. You do not have to supply this information unless this collection displays a currently valid OMB control number. If you have comments on the accuracy of this burden estimate and/or recommendations for reducing it, please send them to: PRA_BurdenComments@state.gov.</p>
-		<p class="small"><b>CONFIDENTIALITY STATEMENT:</b> The information asked for on this form is requested pursuant to Section 222 of the Immigrant and Nationality Act. INA Section 222(f) provides that visa issuance and refusal records shall be considered confidential and shall be used only for the formulation, amendment, administration, or enforcement of the immigration, nationality, and other laws of the United States. Certified copies of visa records may be made available to a court which certifies that the information contained in such records is needed in a case pending before the court.</p>
-		<p class="small"><b>PRIVACY POLICY:</b> For information on the Department of State's privacy policy, regarding the nature, purpose, use, and sharing of any Personally Identifiable Information (PII) collected via this website please <a href="" class="text-decoration-none">click here.</a></p>
+		</div>
+	</form>
+
+	<div class="mb-4">
+		<button type="button" id="continue-btn" class="btn text-white btn-primary main-color-hov bg-gradient entry-form">Continue</button>
+		<button type="submit" id="form-submission" class="entrant-info d-none btn btn-success bg-gradient">Submit</button>
+		<button type="button" class="go-back-btn btn text-white btn-primary main-color-hov bg-gradient entrant-info d-none">Go Back to Part 1</button>
+		<a href="{% url 'entry_form:cancel' %}" class="btn text-white btn-primary main-color-hov bg-gradient">Cancel Entry</a>
 	</div>
+	<p class="entrant-info d-none">Please print this page for your personal records. You will need to use your browser's print button for this.</p>
+	
+	<hr>
+
+	<p class="small"><b>PAPERWORK REDUCTION ACT:</b> Public reporting burden for this collection of information is estimated to average 30 minutes per response, including time require for searching existing data sources, gathering the necessary documentation, providing the information and/or documents required, and reviewing the final collection. You do not have to supply this information unless this collection displays a currently valid OMB control number. If you have comments on the accuracy of this burden estimate and/or recommendations for reducing it, please send them to: PRA_BurdenComments@state.gov.</p>
+	<p class="small"><b>CONFIDENTIALITY STATEMENT:</b> The information asked for on this form is requested pursuant to Section 222 of the Immigrant and Nationality Act. INA Section 222(f) provides that visa issuance and refusal records shall be considered confidential and shall be used only for the formulation, amendment, administration, or enforcement of the immigration, nationality, and other laws of the United States. Certified copies of visa records may be made available to a court which certifies that the information contained in such records is needed in a case pending before the court.</p>
+	<p class="small"><b>PRIVACY POLICY:</b> For information on the Department of State's privacy policy, regarding the nature, purpose, use, and sharing of any Personally Identifiable Information (PII) collected via this website please <a href="" class="text-decoration-none">click here.</a></p>
+</div>
 {% endblock %}

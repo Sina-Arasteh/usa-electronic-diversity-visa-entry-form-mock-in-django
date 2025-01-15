@@ -2,23 +2,14 @@ from django import forms
 from . import models
 
 
-# class MailingAddressForm(forms.ModelForm):
-#     class Meta:
-#         model = models.MailingAddress
-#         fields = '__all__'
-
-
-# class EntrantsForm(forms.ModelForm):
-#     class Meta:
-#         model = models.Entrants
-#         fields = '__all__'
-
 class EntryForm(forms.Form):
     last_name = forms.CharField(max_length=33)
     first_name = forms.CharField(max_length=33, required=False)
     middle_name = forms.CharField(max_length=33, required=False)
     gender = forms.CharField(max_length=6)
-    birth_date = forms.DateField()
+    birth_month = forms.IntegerField(min_value=1, max_value=12)
+    birth_day = forms.IntegerField(min_value=1, max_value=31)
+    birth_year = forms.IntegerField(min_value=1907, max_value=2012)
     birth_city = forms.CharField(max_length=33, required=False)
     birth_country = forms.CharField(max_length=40)
     eligibility_country = forms.CharField(max_length=40, required=False)
