@@ -7,3 +7,4 @@ urlpatterns = [
     path('entry-form', views.entry_form_view , name="begin"),
 ]
 
+

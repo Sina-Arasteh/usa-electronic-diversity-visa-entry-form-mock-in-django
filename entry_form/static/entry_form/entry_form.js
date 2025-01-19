@@ -339,7 +339,7 @@ function entrantPhotographProcesses() {
         fileObjectImage.height = 120;
         fileObjectImage.width = 120;
         fileObjectImage.classList.remove('d-none');
-        if (fileObject.size > 240 * 1000) {
+        if (fileObject.size > 240 * 1024) {
             entrantPhotograph.setCustomValidity("The size of the selected photograph is more than 240 kB.");
         } else {
             entrantPhotograph.setCustomValidity("");
@@ -623,7 +623,7 @@ function emailAddressConfirmationProcess() {
 }
 emailAddressConfirmationElement.addEventListener('change', emailAddressConfirmationProcess);
 
-function abc() {
+function emailAddressVisibility() {
     emailAddressErrorMsg.classList.remove('d-none');
     if (emailAddressElement.validity.valid && emailAddressConfirmationElement.validity.valid) {
         emailAddressErrorMsg.classList.add('d-none');
@@ -828,7 +828,7 @@ continueBtn.addEventListener('click', residenceCountryElementValidation);
 continueBtn.addEventListener('click', phoneNumberElementValidation);
 continueBtn.addEventListener('click', emailAddressConfirmationProcess);
 continueBtn.addEventListener('click', emailAddressValidation);
-continueBtn.addEventListener('click', abc);
+continueBtn.addEventListener('click', emailAddressVisibility);
 continueBtn.addEventListener('click', educationLevelValidation);
 continueBtn.addEventListener('click', maritalStatusValidation);
 continueBtn.addEventListener('click', childrenNumberValidation);

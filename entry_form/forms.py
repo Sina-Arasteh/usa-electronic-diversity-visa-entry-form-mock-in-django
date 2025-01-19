@@ -1,30 +1,317 @@
 from django import forms
+from django.core.validators import RegexValidator, FileExtensionValidator
+from django.core.exceptions import ValidationError
 from . import models
 
 
+GENDER_CHOICES = [
+    ("Male", "Male"),
+    ("Female", "Female"),
+]
+
+COUNTRY_CHOICES = [
+    ('Afghanistan', 'Afghanistan'),
+    ('Albania', 'Albania'),
+    ('Algeria', 'Algeria'),
+    ('American Samoa', 'American Samoa'),
+    ('Andorra', 'Andorra'),
+    ('Angola', 'Angola'),
+    ('Anguilla', 'Anguilla'),
+    ('Antarctica', 'Antarctica'),
+    ('Antigua and Barbuda', 'Antigua & Barbuda'),
+    ('Argentina', 'Argentina'),
+    ('Armenia', 'Armenia'),
+    ('Aruba', 'Aruba'),
+    ('Australia', 'Australia'),
+    ('Austria', 'Austria'),
+    ('Azerbaijan', 'Azerbaijan'),
+    ('Bahamas', 'Bahamas'),
+    ('Bahrain', 'Bahrain'),
+    ('Bangladesh', 'Bangladesh'),
+    ('Barbados', 'Barbados'),
+    ('Belarus', 'Belarus'),
+    ('Belgium', 'Belgium'),
+    ('Belize', 'Belize'),
+    ('Benin', 'Benin'),
+    ('Bermuda', 'Bermuda'),
+    ('Bhutan', 'Bhutan'),
+    ('Bolivia (Plurinational State of)', 'Bolivia'),
+    ('Bosnia and Herzegovina', 'Bosnia & Herzegovina'),
+    ('Botswana', 'Botswana'),
+    ('Bouvet Island', 'Bouvet Island'),
+    ('Brazil', 'Brazil'),
+    ('British Indian Ocean Territory', 'British Indian Ocean Territory'),
+    ('Brunei Darussalam', 'Brunei'),
+    ('Bulgaria', 'Bulgaria'),
+    ('Burkina Faso', 'Burkina Faso'),
+    ('Burundi', 'Burundi'),
+    ('Cabo Verde', 'Cape Verde'),
+    ('Cambodia', 'Cambodia'),
+    ('Cameroon', 'Cameroon'),
+    ('Canada', 'Canada'),
+    ('Caribbean Netherlands', 'Caribbean Netherlands'),
+    ('Cayman Islands', 'Cayman Islands'),
+    ('Central African Republic', 'Central African Republic'),
+    ('Chad', 'Chad'),
+    ('Chile', 'Chile'),
+    ('China', 'China'),
+    ('Christmas Island', 'Christmas Island'),
+    ('Cocos (Keeling) Islands', 'Cocos (Keeling) Islands'),
+    ('Colombia', 'Colombia'),
+    ('Comoros', 'Comoros'),
+    ('Congo', 'Congo - Brazzaville'),
+    ('Congo, Democratic Republic of the', 'Congo - Kinshasa'),
+    ('Cook Islands', 'Cook Islands'),
+    ('Costa Rica', 'Costa Rica'),
+    ('Croatia', 'Croatia'),
+    ('Cuba', 'Cuba'),
+    ('Curaçao', 'Curaçao'),
+    ('Cyprus', 'Cyprus'),
+    ('Czech Republic', 'Czechia'),
+    ('Denmark', 'Denmark'),
+    ('Djibouti', 'Djibouti'),
+    ('Dominica', 'Dominica'),
+    ('Dominican Republic', 'Dominican Republic'),
+    ('Ecuador', 'Ecuador'),
+    ('Egypt', 'Egypt'),
+    ('El Salvador', 'El Salvador'),
+    ('Equatorial Guinea', 'Equatorial Guinea'),
+    ('Eritrea', 'Eritrea'),
+    ('Estonia', 'Estonia'),
+    ('Eswatini (Swaziland)', 'Eswatini'),
+    ('Ethiopia', 'Ethiopia'),
+    ('Falkland Islands (Malvinas)', 'Falkland Islands (Islas Malvinas)'),
+    ('Faroe Islands', 'Faroe Islands'),
+    ('Fiji', 'Fiji'),
+    ('Finland', 'Finland'),
+    ('France', 'France'),
+    ('French Guiana', 'French Guiana'),
+    ('French Polynesia', 'French Polynesia'),
+    ('French Southern Territories', 'French Southern Territories'),
+    ('Gabon', 'Gabon'),
+    ('Gambia', 'Gambia'),
+    ('Georgia', 'Georgia'),
+    ('Germany', 'Germany'),
+    ('Ghana', 'Ghana'),
+    ('Gibraltar', 'Gibraltar'),
+    ('Greece', 'Greece'),
+    ('Greenland', 'Greenland'),
+    ('Grenada', 'Grenada'),
+    ('Guadeloupe', 'Guadeloupe'),
+    ('Guam', 'Guam'),
+    ('Guatemala', 'Guatemala'),
+    ('Guernsey', 'Guernsey'),
+    ('Guinea', 'Guinea'),
+    ('Guinea-Bissau', 'Guinea-Bissau'),
+    ('Guyana', 'Guyana'),
+    ('Haiti', 'Haiti'),
+    ('Heard Island and Mcdonald Islands', 'Heard & McDonald Islands'),
+    ('Honduras', 'Honduras'),
+    ('Hong Kong', 'Hong Kong'),
+    ('Hungary', 'Hungary'),
+    ('Iceland', 'Iceland'),
+    ('India', 'India'),
+    ('Indonesia', 'Indonesia'),
+    ('Iran', 'Iran'),
+    ('Iraq', 'Iraq'),
+    ('Ireland', 'Ireland'),
+    ('Isle of Man', 'Isle of Man'),
+    ('Israel', 'Israel'),
+    ('Italy', 'Italy'),
+    ('Jamaica', 'Jamaica'),
+    ('Japan', 'Japan'),
+    ('Jersey', 'Jersey'),
+    ('Jordan', 'Jordan'),
+    ('Kazakhstan', 'Kazakhstan'),
+    ('Kenya', 'Kenya'),
+    ('Kiribati', 'Kiribati'),
+    ('Korea, North', 'North Korea'),
+    ('Korea, South', 'South Korea'),
+    ('Kosovo', 'Kosovo'),
+    ('Kuwait', 'Kuwait'),
+    ('Kyrgyzstan', 'Kyrgyzstan'),
+    ('Lao People\'s Democratic Republic', 'Laos'),
+    ('Latvia', 'Latvia'),
+    ('Lebanon', 'Lebanon'),
+    ('Lesotho', 'Lesotho'),
+    ('Liberia', 'Liberia'),
+    ('Libya', 'Libya'),
+    ('Liechtenstein', 'Liechtenstein'),
+    ('Lithuania', 'Lithuania'),
+    ('Luxembourg', 'Luxembourg'),
+    ('Macao', 'Macao'),
+    ('Macedonia North', 'North Macedonia'),
+    ('Madagascar', 'Madagascar'),
+    ('Malawi', 'Malawi'),
+    ('Malaysia', 'Malaysia'),
+    ('Maldives', 'Maldives'),
+    ('Mali', 'Mali'),
+    ('Malta', 'Malta'),
+    ('Marshall Islands', 'Marshall Islands'),
+    ('Martinique', 'Martinique'),
+    ('Mauritania', 'Mauritania'),
+    ('Mauritius', 'Mauritius'),
+    ('Mayotte', 'Mayotte'),
+    ('Mexico', 'Mexico'),
+    ('Micronesia', 'Micronesia'),
+    ('Moldova', 'Moldova'),
+    ('Monaco', 'Monaco'),
+    ('Mongolia', 'Mongolia'),
+    ('Montenegro', 'Montenegro'),
+    ('Montserrat', 'Montserrat'),
+    ('Morocco', 'Morocco'),
+    ('Mozambique', 'Mozambique'),
+    ('Myanmar (Burma)', 'Myanmar (Burma)'),
+    ('Namibia', 'Namibia'),
+    ('Nauru', 'Nauru'),
+    ('Nepal', 'Nepal'),
+    ('Netherlands', 'Netherlands'),
+    ('Netherlands Antilles', 'Curaçao'),
+    ('New Caledonia', 'New Caledonia'),
+    ('New Zealand', 'New Zealand'),
+    ('Nicaragua', 'Nicaragua'),
+    ('Niger', 'Niger'),
+    ('Nigeria', 'Nigeria'),
+    ('Niue', 'Niue'),
+    ('Norfolk Island', 'Norfolk Island'),
+    ('Northern Mariana Islands', 'Northern Mariana Islands'),
+    ('Norway', 'Norway'),
+    ('Oman', 'Oman'),
+    ('Pakistan', 'Pakistan'),
+    ('Palau', 'Palau'),
+    ('Palestine', 'Palestine'),
+    ('Panama', 'Panama'),
+    ('Papua New Guinea', 'Papua New Guinea'),
+    ('Paraguay', 'Paraguay'),
+    ('Peru', 'Peru'),
+    ('Philippines', 'Philippines'),
+    ('Pitcairn Islands', 'Pitcairn Islands'),
+    ('Poland', 'Poland'),
+    ('Portugal', 'Portugal'),
+    ('Puerto Rico', 'Puerto Rico'),
+    ('Qatar', 'Qatar'),
+    ('Romania', 'Romania'),
+    ('Russian Federation', 'Russia'),
+    ('Rwanda', 'Rwanda'),
+    ('Saint Helena', 'St. Helena'),
+    ('Saint Kitts and Nevis', 'St. Kitts & Nevis'),
+    ('Saint Lucia', 'St. Lucia'),
+    ('Saint Martin', 'St. Martin'),
+    ('Saint Pierre and Miquelon', 'St. Pierre & Miquelon'),
+    ('Saint Vincent and the Grenadines', 'St. Vincent & Grenadines'),
+    ('Samoa', 'Samoa'),
+    ('San Marino', 'San Marino'),
+    ('Saudi Arabia', 'Saudi Arabia'),
+    ('Senegal', 'Senegal'),
+    ('Serbia', 'Serbia'),
+    ('Serbia and Montenegro', 'Serbia'),
+    ('Seychelles', 'Seychelles'),
+    ('Sierra Leone', 'Sierra Leone'),
+    ('Singapore', 'Singapore'),
+    ('Sint Maarten', 'Sint Maarten'),
+    ('Slovakia', 'Slovakia'),
+    ('Slovenia', 'Slovenia'),
+    ('Solomon Islands', 'Solomon Islands'),
+    ('Somalia', 'Somalia'),
+    ('South Africa', 'South Africa'),
+    ('South Georgia and the South Sandwich Islands', 'South Georgia & South Sandwich Islands'),
+    ('South Sudan', 'South Sudan'),
+    ('Spain', 'Spain'),
+    ('Sri Lanka', 'Sri Lanka'),
+    ('Sudan', 'Sudan'),
+    ('Suriname', 'Suriname'),
+    ('Svalbard and Jan Mayen', 'Svalbard & Jan Mayen'),
+    ('Sweden', 'Sweden'),
+    ('Switzerland', 'Switzerland'),
+    ('Syria', 'Syria'),
+    ('Taiwan', 'Taiwan'),
+    ('Tajikistan', 'Tajikistan'),
+    ('Tanzania', 'Tanzania'),
+    ('Thailand', 'Thailand'),
+    ('Timor-Leste', 'Timor-Leste'),
+    ('Togo', 'Togo'),
+    ('Tokelau', 'Tokelau'),
+    ('Tonga', 'Tonga'),
+    ('Trinidad and Tobago', 'Trinidad & Tobago'),
+    ('Tunisia', 'Tunisia'),
+    ('Turkey', 'Turkey'),
+    ('Turkmenistan', 'Turkmenistan'),
+    ('Turks and Caicos Islands', 'Turks & Caicos Islands'),
+    ('Tuvalu', 'Tuvalu'),
+    ('U.S. Outlying Islands', 'U.S. Outlying Islands'),
+    ('Uganda', 'Uganda'),
+    ('Ukraine', 'Ukraine'),
+    ('United Arab Emirates', 'United Arab Emirates'),
+    ('United Kingdom', 'United Kingdom'),
+    ('Uruguay', 'Uruguay'),
+    ('Uzbekistan', 'Uzbekistan'),
+    ('Vanuatu', 'Vanuatu'),
+    ('Vatican City Holy See', 'Vatican City'),
+    ('Venezuela', 'Venezuela'),
+    ('Vietnam', 'Vietnam'),
+    ('Virgin Islands, British', 'British Virgin Islands'),
+    ('Virgin Islands, U.S', 'U.S. Virgin Islands'),
+    ('Wallis and Futuna', 'Wallis & Futuna'),
+    ('Western Sahara', 'Western Sahara'),
+    ('Yemen', 'Yemen'),
+    ('Zambia', 'Zambia'),
+    ('Zimbabwe', 'Zimbabwe'),
+]
+
+EDUCATION_LEVEL_CHOICES = [
+    ("Primary school only", "Primary school only"),
+    ("High School, no degree", "High School, no degree"),
+    ("High School degree", "High School degree"),
+    ("Vocational School", "Vocational School"),
+    ("Some University Courses", "Some University Courses"),
+    ("University Degree", "University Degree"),
+    ("Some Graduate Level Courses", "Some Graduate Level Courses"),
+    ("Master's Degree", "Master's Degree"),
+    ("Some Doctorate Level Courses", "Some Doctorate Level Courses"),
+    ("Doctorate Degree", "Doctorate Degree"),
+]
+
+
+MARITAL_STATUS_CHOICES = [
+    ("Unmarried", "Unmarried"),
+    ("Married and my spouse is NOT a U.S. citizen or U.S. Lawful Permanent Resident (LPR)", "Married and my spouse is NOT a U.S. citizen or U.S. Lawful Permanent Resident (LPR)"),
+    ("Married and my spouse is a U.S. citizen or U.S. Lawful Permanent Resident (LPR)", "Married and my spouse is a U.S. citizen or U.S. Lawful Permanent Resident (LPR)"),
+    ("Divorced", "Divorced"),
+    ("Widowed", "Widowed"),
+    ("Legally Separated", "Legally Separated"),
+]
+
+
+def photograph_validation(fileObj):
+    if fileObj.size > 240 * 1024:
+        raise ValidationError("An unexpected error occured.")
+    elif fileObj.content_type != "image/jpeg":
+        raise ValidationError("An unexpected error occured.")
+
+
 class EntryForm(forms.Form):
-    last_name = forms.CharField(max_length=33)
-    first_name = forms.CharField(max_length=33, required=False)
-    middle_name = forms.CharField(max_length=33, required=False)
-    gender = forms.CharField(max_length=6)
+    last_name = forms.CharField(max_length=33, validators=[RegexValidator(regex="[a-zA-Z`\s\-]+")])
+    first_name = forms.CharField(max_length=33, validators=[RegexValidator(regex="[a-zA-Z`\s\-]+")], required=False)
+    middle_name = forms.CharField(max_length=33, validators=[RegexValidator(regex="[a-zA-Z`\s\-]+")], required=False)
+    gender = forms.ChoiceField(choices=GENDER_CHOICES)
     birth_month = forms.IntegerField(min_value=1, max_value=12)
     birth_day = forms.IntegerField(min_value=1, max_value=31)
     birth_year = forms.IntegerField(min_value=1907, max_value=2012)
     birth_city = forms.CharField(max_length=33, required=False)
-    birth_country = forms.CharField(max_length=40)
-    eligibility_country = forms.CharField(max_length=40, required=False)
-    entrant_photograph = forms.ImageField()
+    birth_country = forms.ChoiceField(choices=COUNTRY_CHOICES)
+    eligibility_country = forms.ChoiceField(choices=COUNTRY_CHOICES, required=False)
+    entrant_photograph = forms.ImageField(validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp']), photograph_validation])
     in_care_of = forms.CharField(max_length=33, required=False)
     address_line_one = forms.CharField(max_length=33)
     address_line_two = forms.CharField(max_length=33, required=False)
     city = forms.CharField(max_length=33)
     province = forms.CharField(max_length=33)
     zip_code = forms.CharField(max_length=33, required=False)
-    country = forms.CharField(max_length=40)
-    residence_country = forms.CharField(max_length=33)
+    country = forms.ChoiceField(choices=COUNTRY_CHOICES)
+    residence_country = forms.ChoiceField(choices=COUNTRY_CHOICES)
     phone_number = forms.CharField(max_length=33, required=False)
     email_address = forms.EmailField()
-    education_level = forms.CharField(max_length=33)
-    marital_status = forms.CharField(max_length=85)
+    education_level = forms.ChoiceField(choices=EDUCATION_LEVEL_CHOICES)
+    marital_status = forms.ChoiceField(choices=MARITAL_STATUS_CHOICES)
     children_number = forms.IntegerField(min_value=0, max_value=20)
 

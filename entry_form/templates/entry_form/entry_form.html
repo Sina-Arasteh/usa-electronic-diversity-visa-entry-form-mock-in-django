@@ -24,6 +24,8 @@
 	</div>
 
 	<form method="post" enctype="multipart/form-data" novalidate>
+		{% csrf_token %}
+
 		<div class="card rounded-1 mb-4">
 			<div class="card-header fw-medium head-color">
 				1. Name
@@ -1376,12 +1378,12 @@
 
 				<div class="entry-form">
 					<div class="mb-3">
-						<label for="email-address" class="form-label">a. E-Mail Address <span>(e.g. johndoe@example.com)</span></label><br>
-						<input type="email" id="email-address" name="email_address" class="form-control width-60" maxlength="33" required>
+						<label for="email-address" class="form-label">a. E-Mail Address <span class="user-select-none">(e.g. johndoe@example.com)</span></label><br>
+						<input type="email" id="email-address" name="email_address" class="form-control width-60" maxlength="320" required>
 					</div>
 					<div>
 						<label for="email-address-confirm" class="form-label">b. Confirm E-Mail Address</label><br>
-						<input type="text" id="email-address-confirm" onpaste="return false;" class="form-control width-60" maxlength="33" autocomplete="off" disabled required>
+						<input type="text" id="email-address-confirm" onpaste="return false;" ondrop="return false;" class="form-control width-60" maxlength="320" autocomplete="off" disabled required>
 					</div>
 				</div>
 
@@ -1466,11 +1468,11 @@
 						<label for="unmarried" class="form-check-label">Unmarried</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="marital_status" value="Married and my spouse is NOT a U.S.citizen or U.S. Lawful Permanent Resident (LPR)" id="married-spouse-not" required>
+						<input type="radio" name="marital_status" value="Married and my spouse is NOT a U.S. citizen or U.S. Lawful Permanent Resident (LPR)" id="married-spouse-not" required>
 						<label for="married-spouse-not" class="form-check-label">Married and my spouse is NOT a U.S.citizen or U.S. Lawful Permanent Resident (LPR)</label>
 					</div>
 					<div class="form-check ps-2">
-						<input type="radio" name="marital_status" value="Married and my spouse IS a U.S.citizen or U.S. Lawful Permanent Resident (LPR)" id="married-spouse" required>
+						<input type="radio" name="marital_status" value="Married and my spouse is a U.S. citizen or U.S. Lawful Permanent Resident (LPR)" id="married-spouse" required>
 						<label for="married-spouse" class="form-check-label">Married and my spouse IS a U.S.citizen or U.S. Lawful Permanent Resident (LPR)</label>
 					</div>
 					<div class="form-check ps-2">
