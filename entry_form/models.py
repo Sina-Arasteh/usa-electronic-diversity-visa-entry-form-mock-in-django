@@ -7,12 +7,12 @@ class MailingAddress(models.Model):
     address_Line_2 = models.CharField(max_length=33)
     city = models.CharField("City/Town", max_length=33)
     province = models.CharField("District/County/Province/State", max_length=33)
-    zip_code = models.CharField("Postal Code/Zip Code", max_length=33)
+    zip_Code = models.CharField("Postal Code/Zip Code", max_length=33)
     country = models.CharField(max_length=40)
 
 
 class Entrant(models.Model):
-    last_name = models.CharField("Last/Family Name", max_length=33)
+    last_Name = models.CharField("Last/Family Name", max_length=33)
     first_Name = models.CharField(max_length=33)
     middle_Name = models.CharField(max_length=33)
     gender = models.CharField(max_length=6)
@@ -28,6 +28,6 @@ class Entrant(models.Model):
     education_Level = models.CharField(max_length=33)
     marital_Status = models.CharField(max_length=85)
     children_Number = models.PositiveSmallIntegerField()
-    confirmation_Number = models.CharField(max_length=16)
-    digital_Signature = models.CharField(max_length=40)
+    confirmation_Number = models.CharField(max_length=16, unique=True)
+    digital_Signature = models.CharField(max_length=40, unique=True)
 

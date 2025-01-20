@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <h4>DV-202X Submission Confirmation: Entry Received</h4>
+        </div>
+
+        
+        <div class="fw-medium bg-success bg-gradient text-center mb-3 p-2">
+            <span class="fs-3">Success!</span>
+        </div>
+        <div>
+            <p class="text-center">Your entry for the 202X Diversity Visa program was received. Please do <b>NOT</b> close this window until you have printed this confirmation page or made a record of your Confirmation Number.</p>
+            <div class="row my-4">
+                <div class="col">
+                    <div><b>Entrant Name:</b></div>
+                    <div><b>Confirmation Number:</b></div>
+                    <div><b>Year of Birth:</b></div>
+                    <div><b>Digital Signature:</b></div>
+                </div>
+                <div class="col">
+                    <div>{{ last_name }}{% if middle_name or first_name%},{% endif %} {{ middle_name }} {{ first_name }}</div>
+                    <div>{{ confirmation_number }}</div>
+                    <div>{{ birth_year }}</div>
+                    <div>{{ digital_signature }}</div>
+                </div>
+                <div class="col"></div>
+                <div class="col"></div>
+            </div>
+            <p>Thank you for your entry for the 202X Diversity Visa Program.</p>
+            <p><b>Please either print this page or make a record of the confirmation number before closing this window. You will not be able to retrieve thisnumber after you close this window.</b></p>
+            <p>You must retain your confirmation number in order to check your entry status via <a href="" target="_blank">Entrant Status Check</a> between May 3, 202X-1 and September 30, 202X todetermine whether your entry was selected for further processing in the 202X Diversity Visa Program. You will be <b>REQUIRED</b> to enter your confirmationnumber in combination with other personal information in order to check on your entry status.</p>
+            <p><b>Selectees will not receive selectee notifications or letters by regular postal mail from the Kentucky Consular Center (KCC).</b></p>
+            <p><b>Do not submit additional Entry Forms with this person as the Primary Entrant! Multiple entries will disqualify the Entrant from participation inthe 202X Diversity Visa Program.</b></p>
+        </div>
+    </div>
+{% endblock %}
