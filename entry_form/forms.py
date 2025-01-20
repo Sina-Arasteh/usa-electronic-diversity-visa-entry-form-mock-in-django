@@ -1,7 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator, FileExtensionValidator
 from django.core.exceptions import ValidationError
-from . import models
 
 
 GENDER_CHOICES = [
