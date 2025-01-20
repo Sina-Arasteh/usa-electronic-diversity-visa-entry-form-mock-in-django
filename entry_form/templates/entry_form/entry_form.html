@@ -23,7 +23,7 @@
 		<h4>Part One - Entrant Information</h4>
 	</div>
 
-	<form method="post" enctype="multipart/form-data" novalidate>
+	<form action="entry-form" method="post" enctype="multipart/form-data" novalidate>
 		{% csrf_token %}
 
 		<div class="card rounded-1 mb-4">
@@ -1525,7 +1525,7 @@
 		<button type="button" id="continue-btn" class="btn text-white btn-primary main-color-hov bg-gradient entry-form">Continue</button>
 		<button type="submit" id="form-submission" class="entrant-info d-none btn btn-success bg-gradient">Submit</button>
 		<button type="button" class="go-back-btn btn text-white btn-primary main-color-hov bg-gradient entrant-info d-none">Go Back to Part 1</button>
-		<a href="{% url 'entry_form:cancel' %}" class="btn text-white btn-primary main-color-hov bg-gradient">Cancel Entry</a>
+		<a href="{% url 'entry_form:begin-template' %}" class="btn text-white btn-primary main-color-hov bg-gradient">Cancel Entry</a>
 	</div>
 	<p class="entrant-info d-none">Please print this page for your personal records. You will need to use your browser's print button for this.</p>
 	

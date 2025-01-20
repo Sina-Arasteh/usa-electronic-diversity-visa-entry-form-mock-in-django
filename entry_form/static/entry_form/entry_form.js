@@ -775,7 +775,6 @@ function renderEntrantInfo() {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
     
-        formElement.setAttribute('action', 'sec-entry-form');
         formElement.setAttribute('id', 'sbmt-form');
         submitBtn.setAttribute('form', formElement.id);
     } else {
