@@ -2,19 +2,20 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'entry_form/style.css' %}">
+  <link rel="stylesheet" href="{% static 'entry_form/style.css' %}">
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="card rounded-1 mb-4 text-center">
-            <div class="card-header fw-medium head-color">
-                Entry Form
-            </div>
-            <div class="card-body p-4">
-                <p>The entry form is prepared in two parts, one for the primary Entrant and one for derivatives (if any). Each part must be completed correctly and completely before going to the next part. After all parts are completed, the entry will be submitted to the DV-202X Processing Center. Click the link below to begin the entry process.</p>
-                <a href="{% url 'entry_form:form-template' %}" class="btn btn-success bg-gradient">Begin Entry</a>
-            </div>
-        </div>
+  <div class="container">
+    <div class="card rounded-1 mb-4 text-center">
+      <div class="card-header fw-medium head-color">
+        Entry Form
+      </div>
+
+      <div class="card-body p-4">
+        <p>The entry form is prepared in two parts, one for the primary Entrant and one for derivatives (if any). Each part must be completed correctly and completely before going to the next part. After all parts are completed, the entry will be submitted to the DV-202X Processing Center. Click the link below to begin the entry process.</p>
+        <a href="{% url 'entry_form:form-template' %}" class="btn btn-success bg-gradient">Begin Entry</a>
+      </div>
     </div>
+  </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 // 1. Name ---------------> Last/Family Name:
 
-const lastNameElement = document.getElementById('lname');
+const lastNameElement = document.getElementById('id_last_Name');
 const lastNameErrorMsg = document.getElementById('lname-error-msg');
 const lastNameInfo = document.getElementById('lname-info');
 
@@ -25,7 +25,7 @@ lastNameElement.addEventListener('change', lastNameValidation);
 
 // 1. Name ---------------> First Name:
 
-const firstNameElement = document.getElementById('fname');
+const firstNameElement = document.getElementById('id_first_Name');
 const firstNameErrorMsg = document.getElementById('fname-error-msg');
 const noFirstName = document.getElementById('no-fname');
 const firstNameInfo = document.getElementById('fname-info');
@@ -63,7 +63,7 @@ noFirstName.addEventListener('click', disableFirstName);
 
 // 1. Name ---------------> Middle Name:
 
-const middleNameElement = document.getElementById('mname');
+const middleNameElement = document.getElementById('id_middle_Name');
 const middleNameErrorMsg = document.getElementById('mname-error-msg');
 const noMiddleName = document.getElementById('no-mname');
 const middleNameInfo = document.getElementById('mname-info');
@@ -147,7 +147,7 @@ genderchoices[1].addEventListener('click', genderValidation);
 
 // 3. Birth Date ---------------> Month:
 
-const birthMonthElement = document.getElementById('bmonth');
+const birthMonthElement = document.getElementById('id_birth_month');
 const birthMonthErrorMsg = document.getElementById('bmonth-error-msg');
 const birthMonthInfo = document.getElementById('bmonth-info');
 
@@ -170,7 +170,7 @@ birthMonthElement.addEventListener('change', birthMonthValidation);
 
 // 3. Birth Date ---------------> Day:
 
-const birthDayElement = document.getElementById('bday');
+const birthDayElement = document.getElementById('id_birth_day');
 const birthDayErrorMsg = document.getElementById('bday-error-msg');
 const birthDayInfo = document.getElementById('bday-info');
 
@@ -191,7 +191,7 @@ birthDayElement.addEventListener('change', birthDayValidation);
 
 // 3. Birth Date ---------------> Year:
 
-const birthYearElement = document.getElementById('byear');
+const birthYearElement = document.getElementById('id_birth_year');
 const birthYearErrorMsg = document.getElementById('byear-error-msg');
 const birthYearInfo = document.getElementById('byear-info');
 const birthDateErrorMsg = document.getElementById('b-error-msg');
@@ -224,7 +224,7 @@ birthYearElement.addEventListener('change', birthDateErrorMsgVisibility);
 
 // 4. City Where You Were Born:
 
-const birthCityElement = document.getElementById('bcity');
+const birthCityElement = document.getElementById('id_birth_City');
 const birthCityErrorMsg = document.getElementById('bcity-error-msg');
 const noBirthCity = document.getElementById('no-bcity');
 const birthCityInfo = document.getElementById('bcity-info');
@@ -260,7 +260,7 @@ noBirthCity.addEventListener('click', disableBCity);
 
 // 5. Country Where You Were Born:
 
-const birthCountryElement = document.getElementById('bcountry');
+const birthCountryElement = document.getElementById('id_birth_Country');
 const birthCountryErrorMsg = document.getElementById('bcountry-error-msg');
 const birthCountryInfo = document.getElementById('bcountry-info');
 
@@ -281,7 +281,7 @@ birthCountryElement.addEventListener('change', birthCountryValidation);
 
 // 6. Country of Eligibility for the DV Program:
 
-const eligibilityCountryElement = document.getElementById('elig-country');
+const eligibilityCountryElement = document.getElementById('id_eligibility_Country');
 const yesBirthCountryEligibility = document.getElementById('yes-bcountry-eligibility');
 const noBirthCountryEligibility = document.getElementById('no-bcountry-eligibility');
 const eligibilityCountryErrorMsg = document.getElementById('elig-country-error-msg');
@@ -319,7 +319,7 @@ noBirthCountryEligibility.addEventListener('click', removedisabilityEligCountry)
 
 // 7. Entrant Photograph:
 
-const entrantPhotograph = document.getElementById('entrant-photograph');
+const entrantPhotograph = document.getElementById('id_entrant_Photograph');
 const entrantPhotographTrigger = document.getElementById('entrant-photograph-trigger');
 const entrantPhotographName = document.getElementById('entrant-photograph-name');
 const fileObjectImage = document.getElementById('entrant-photograph-show');
@@ -363,7 +363,7 @@ entrantPhotograph.addEventListener('change', entrantPhotographProcesses);
 
 // 8. Mailing Address ---------------> In Care Of:
 
-const inCareOfElement = document.getElementById('in-care-of');
+const inCareOfElement = document.getElementById('id_in_Care_Of');
 const inCareOfErrorMsg = document.getElementById('in-care-of-error-msg');
 const inCareOfInfo = document.getElementById('in-care-of-info');
 
@@ -384,7 +384,7 @@ inCareOfElement.addEventListener('change', inCareOfElementValidation);
 
 // 8. Mailing Address ---------------> Address Line 1:
 
-const addressLineOneElement = document.getElementById('address-line1');
+const addressLineOneElement = document.getElementById('id_address_Line_1');
 const addressLineOneErrorMsg = document.getElementById('address-line1-error-msg');
 const addressLineOneInfo = document.getElementById('address-line1-info');
 
@@ -407,7 +407,7 @@ addressLineOneElement.addEventListener('change', addressLineOneElementValidation
 
 // 8. Mailing Address ---------------> Address Line 2:
 
-const addressLineTwoElement = document.getElementById('address-line2');
+const addressLineTwoElement = document.getElementById('id_address_Line_2');
 const addressLineTwoErrorMsg = document.getElementById('address-line2-error-msg');
 const addressLineTwoInfo = document.getElementById('address-line2-info');
 
@@ -428,7 +428,7 @@ addressLineTwoElement.addEventListener('change', addressLineTwoElementValidation
 
 // 8. Mailing Address ---------------> City/Town:
 
-const cityElement = document.getElementById('city');
+const cityElement = document.getElementById('id_city');
 const cityErrorMsg = document.getElementById('city-error-msg');
 const cityInfo = document.getElementById('city-info');
 
@@ -451,7 +451,7 @@ cityElement.addEventListener('change', cityElementValidaty);
 
 // 8. Mailing Address ---------------> District/Country/Province/State:
 
-const provinceElement = document.getElementById('province');
+const provinceElement = document.getElementById('id_province');
 const provinceErrorMsg = document.getElementById('province-error-msg');
 const provinceInfo = document.getElementById('province-info');
 
@@ -474,7 +474,7 @@ provinceElement.addEventListener('change', provinceElementValidaty);
 
 // 8. Mailing Address ---------------> Postal Code/Zip Code:
 
-const zipCodeElement = document.getElementById('zcode');
+const zipCodeElement = document.getElementById('id_zip_Code');
 const zipCodeErrorMsg = document.getElementById('zcode-error-msg');
 const noZipCode = document.getElementById('no-zcode');
 const zipCodeInfo = document.getElementById('zcode-info');
@@ -510,7 +510,7 @@ noZipCode.addEventListener('click', disableZipCodeElement);
 
 // 8. Mailing Address ---------------> Country:
 
-const countryElement = document.getElementById('country');
+const countryElement = document.getElementById('id_country');
 const countryErrorMsg = document.getElementById('country-error-msg');
 const countryInfo = document.getElementById('country-info');
 
@@ -531,7 +531,7 @@ countryElement.addEventListener('change', countryElementValidation);
 
 // 9. Country Where You Live Today:
 
-const residenceCountryElement = document.getElementById('residence-country');
+const residenceCountryElement = document.getElementById('id_residence_Country');
 const residenceCountryErrorMsg = document.getElementById('residence-country-error-msg');
 const residenceCountryInfo = document.getElementById('residence-country-info');
 
@@ -552,7 +552,7 @@ residenceCountryElement.addEventListener('change', residenceCountryElementValida
 
 // 10. Phone Number:
 
-const phoneNumberElement = document.getElementById('phone');
+const phoneNumberElement = document.getElementById('id_phone_Number');
 const phoneNumberErrorMsg = document.getElementById('phone-error-msg');
 const phoneNumberInfo = document.getElementById('phone-info');
 
@@ -573,7 +573,7 @@ phoneNumberElement.addEventListener('change', phoneNumberElementValidation);
 
 // 11. E-mail Address:
 
-const emailAddressElement = document.getElementById('email-address');
+const emailAddressElement = document.getElementById('id_email_Address');
 const emailAddressConfirmationElement = document.getElementById('email-address-confirm');
 const emailAddressErrorMsg = document.getElementById('email-address-error-msg');
 const emailAddressInfo = document.getElementById('email-address-info');
@@ -731,7 +731,7 @@ widowed.addEventListener('click', disableSpouseInfo);
 
 // 14. Number of Children
 
-const childrenNumberElement = document.getElementById('children-number');
+const childrenNumberElement = document.getElementById('id_children_Number');
 const childrenNumberErrorMsg = document.getElementById('children-number-error-msg');
 const childrenNumberInfo = document.getElementById('children-number-info');
 
