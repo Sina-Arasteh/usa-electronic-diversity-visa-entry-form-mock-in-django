@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="d-flex justify-content-center align-items-center" style="height: 87vh;">
+  <div class="text-center bg-warning p-4 border border-black border-3">
+    <h1 class="">Oops,It Seems You Do Not Have Permission To View This Page <span class="fw-bold">(403 Error)</span></h1>
+    <div class="mt-3">
+      <a href="{% url 'entry_form:begin-template' %}" class="btn btn-success bg-gradient">Back Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

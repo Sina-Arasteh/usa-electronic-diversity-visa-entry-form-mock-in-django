@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="d-flex justify-content-center align-items-center" style="height: 87vh;">
+  <div class="text-center bg-warning p-4 border border-black border-3">
+    <h1 class="">Sorry, There Is Something Wrong With Our Server <span class="fw-bold">(500 Error)</span></h1>
+    <h4>We are doing our best to solve the problem.</h4>
+    <h4>Thanks for being patient.</h4>
+    <div class="mt-3">
+      <a href="{% url 'entry_form:begin-template' %}" class="btn btn-success bg-gradient">Back Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

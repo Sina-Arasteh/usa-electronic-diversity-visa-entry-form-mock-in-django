@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="d-flex justify-content-center align-items-center" style="height: 87vh;">
+  <div class="text-center bg-warning p-4 border border-black border-3">
+    <h1 class="">Oops, Page Not Found <span class="fw-bold">(404 Error)</span></h1>
+    <h4>The URL that resulted in this error:</h4>
+    <h4>{{ request_path }}</h4>
+    <div class="mt-3">
+      <a href="{% url 'entry_form:begin-template' %}" class="btn btn-success bg-gradient">Back Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

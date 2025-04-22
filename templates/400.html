@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="d-flex justify-content-center align-items-center" style="height: 87vh;">
+  <div class="text-center bg-warning p-4 border border-black border-3">
+    <h1 class="">Oops, Your Request Is Not Valid <span class="fw-bold">(400 Error)</span></h1>
+    <div class="mt-3">
+      <a href="{% url 'entry_form:form-template' %}" class="btn btn-success bg-gradient">Submit A New Entry</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
