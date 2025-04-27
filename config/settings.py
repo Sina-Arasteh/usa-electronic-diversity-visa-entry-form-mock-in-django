@@ -124,10 +124,12 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "collected_static_files"
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static"
+    BASE_DIR / "static",
 ]
 
-MEDIA_ROOT = BASE_DIR / "uploads"
+MEDIA_URL = "entrant-photo/"
+
+MEDIA_ROOT = BASE_DIR / "entrant_photos"
 
 
 # Default primary key field type

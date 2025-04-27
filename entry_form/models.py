@@ -25,7 +25,7 @@ class Entrant(models.Model):
     birth_City = models.CharField(max_length=33, blank=True)
     birth_Country = models.CharField(max_length=40, choices=constants.COUNTRY_CHOICES)
     eligibility_Country = models.CharField(max_length=40, choices=constants.COUNTRY_CHOICES, blank=True)
-    entrant_Photograph = models.ImageField(upload_to="")
+    entrant_Photograph = models.ImageField()
     mailing_Address = models.OneToOneField(MailingAddress, on_delete=models.CASCADE)
     residence_Country = models.CharField(max_length=40, choices=constants.COUNTRY_CHOICES)
     phone_Number = models.CharField(max_length=33, blank=True)
