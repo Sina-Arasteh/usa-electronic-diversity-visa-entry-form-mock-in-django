@@ -23,7 +23,7 @@ This is just a project in order to show my skill in creating forms via Django fr
 
 3. Go to the container shell in order to migrate the migrations:
 
-  docker exec -it <container-id> sh
+  docker exec -it container-id sh
 
 ## Links:
 
@@ -32,3 +32,6 @@ This is just a project in order to show my skill in creating forms via Django fr
 ## Author
 
 Sina Arasteh
+- Email: sinna.arasteh@gmail.com
+- LinkedIn: https://www.linkedin.com/in/sina-arasteh-234085290
+- Telegram: t.me/Sinna_Arasteh
