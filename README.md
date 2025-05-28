@@ -24,3 +24,11 @@ This is just a project in order to show my skill in creating forms via Django fr
 3. Go to the container shell in order to migrate the migrations:
 
   docker exec -it <container-id> sh
+
+## Links:
+
+- Live Site URL: [USA DV Visa Entry Form]()
+
+## Author
+
+Sina Arasteh
