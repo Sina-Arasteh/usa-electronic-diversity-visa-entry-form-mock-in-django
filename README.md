@@ -34,4 +34,4 @@ This is just a project in order to show my skill in creating forms via Django fr
 Sina Arasteh
 - Email: sinna.arasteh@gmail.com
 - LinkedIn: https://www.linkedin.com/in/sina-arasteh-234085290
-- Telegram: t.me/Sinna_Arasteh
+- Telegram: https://t.me/Sinna_Arasteh
