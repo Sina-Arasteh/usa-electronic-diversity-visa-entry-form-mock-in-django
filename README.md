@@ -6,12 +6,13 @@ This is just a project in order to show my skill in creating forms via Django fr
 
 ## Technologies Used
 
-* Django
 * Python
+* Django
+* Pillow
 * Docker
 * Git
 
-## Installation
+## Installation (For Development)
 
 1. Clone the project using the following command:
 
@@ -25,13 +26,14 @@ This is just a project in order to show my skill in creating forms via Django fr
 
   docker exec -it container-id sh
 
+  python manage.py migrate
+
 ## Links:
 
-- Live Site URL: [USA DV Visa Entry Form]()
+- Live Site URL: [USA DV Visa Entry Form Mock](https://dvproj.s-arasteh.ir)
 
 ## Author
 
 Sina Arasteh
 - Email: sinna.arasteh@gmail.com
-- LinkedIn: https://www.linkedin.com/in/sina-arasteh-234085290
 - Telegram: https://t.me/Sinna_Arasteh
