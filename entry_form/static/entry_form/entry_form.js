@@ -294,11 +294,9 @@ const eligibilityCountryErrorMsg = document.getElementById('elig-country-error-m
 const eligibilityCountryInfo = document.getElementById('elig-country-info');
 
 function eligibilityCountryValidation() {
-    if (!eligibilityCountryElement.validity.valid && !yesBirthCountryEligibility.checked) {
+    if ((!eligibilityCountryElement.validity.valid && !yesBirthCountryEligibility.checked) || (!yesBirthCountryEligibility.checked && !noBirthCountryEligibility.checked)) {
         eligibilityCountryErrorMsg.classList.remove('d-none');
-        if (eligibilityCountryElement.validity.valueMissing) {
-            eligibilityCountryErrorMsg.innerHTML = "You must select the country from which you are clainming eligibility. If you are claiming eligibility based on the country where you were born, enable the 'Yes' radio button.";
-        }
+        eligibilityCountryErrorMsg.innerHTML = "You must select the country from which you are clainming eligibility. If you are claiming eligibility based on the country where you were born, enable the 'Yes' radio button.";
     } else {
         eligibilityCountryErrorMsg.classList.add('d-none');
         if (eligibilityCountryElement.value) {
@@ -701,7 +699,7 @@ function maritalStatusValidation() {
     }
     if (selectedMaritalStatus == 0) {
         maritalStatusErrorMsg.classList.remove('d-none');
-        maritalStatusErrorMsg.innerHTML = "You must select an marital status.";
+        maritalStatusErrorMsg.innerHTML = "You must select a marital status.";
     } else {
         maritalStatusErrorMsg.classList.add('d-none');
         for (let cho of maritalStatusChoices) {
