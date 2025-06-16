@@ -30,11 +30,13 @@ const firstNameErrorMsg = document.getElementById('fname-error-msg');
 const noFirstName = document.getElementById('no-fname');
 const firstNameInfo = document.getElementById('fname-info');
 
+firstNameElement.setAttribute('required', 'true');
+
 function firstNameValidation() {
     if (!firstNameElement.validity.valid) {
         firstNameErrorMsg.classList.remove('d-none');
         if (firstNameElement.validity.valueMissing) {
-            firstNameErrorMsg.innerHTML = "You must provide a first name. If you have no first name, enable the 'No First Name' checkbox. ";
+            firstNameErrorMsg.innerHTML = "You must provide a first name. If you have no first name, enable the 'No First Name' checkbox.";
         } else if (firstNameElement.validity.tooLong) {
             firstNameErrorMsg.innerHTML = "Your First Name cannot be longer than 33 characters.";
         } else if (firstNameElement.validity.patternMismatch) {
@@ -68,6 +70,8 @@ const middleNameErrorMsg = document.getElementById('mname-error-msg');
 const noMiddleName = document.getElementById('no-mname');
 const middleNameInfo = document.getElementById('mname-info');
 const NameErrorMsg = document.getElementById('name-error-msg');
+
+middleNameElement.setAttribute('required', 'true');
 
 function middleNameValidation() {
     if (!middleNameElement.validity.valid) {
@@ -229,6 +233,8 @@ const birthCityErrorMsg = document.getElementById('bcity-error-msg');
 const noBirthCity = document.getElementById('no-bcity');
 const birthCityInfo = document.getElementById('bcity-info');
 
+birthCityElement.setAttribute('required', 'true');
+
 function birthCityValidation() {
     if (!birthCityElement.validity.valid) {
         birthCityErrorMsg.classList.remove('d-none');
@@ -312,6 +318,7 @@ yesBirthCountryEligibility.addEventListener('click', disableEligCountry);
 
 function removedisabilityEligCountry() {
     eligibilityCountryElement.disabled = false;
+    eligibilityCountryElement.setAttribute('required', 'true');
 }
 noBirthCountryEligibility.addEventListener('click', removedisabilityEligCountry);
 
@@ -478,6 +485,8 @@ const zipCodeElement = document.getElementById('id_zip_Code');
 const zipCodeErrorMsg = document.getElementById('zcode-error-msg');
 const noZipCode = document.getElementById('no-zcode');
 const zipCodeInfo = document.getElementById('zcode-info');
+
+zipCodeElement.setAttribute('required', 'true');
 
 function zipCodeElementValidation() {
     if (!zipCodeElement.validity.valid) {
