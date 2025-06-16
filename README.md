@@ -1,8 +1,10 @@
 # USA Electronic Diversity Visa Entry Form Mock in Django
 
+
 ## Description
 
 This is just a project in order to show my skill in creating forms via Django framework.
+
 
 ## Technologies Used
 
@@ -11,6 +13,7 @@ This is just a project in order to show my skill in creating forms via Django fr
 * Pillow
 * Docker
 * Git
+
 
 ## Installation (For Development)
 
@@ -22,15 +25,11 @@ This is just a project in order to show my skill in creating forms via Django fr
 
   docker compose up --watch
 
-3. Go to the container shell in order to migrate the migrations:
-
-  docker exec -it container-id sh
-
-  python manage.py migrate
 
 ## Links:
 
 - Live Site URL: [USA DV Visa Entry Form Mock](https://dvproj.s-arasteh.ir)
+
 
 ## Author
 
