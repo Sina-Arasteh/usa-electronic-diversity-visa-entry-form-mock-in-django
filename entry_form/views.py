@@ -6,6 +6,7 @@ import datetime
 import string
 from random import choice
 from django.core.exceptions import BadRequest
+from django.urls import reverse
 
 
 def begin_entry_view(request): 
@@ -47,7 +48,7 @@ def entry_form_view(request):
             entrant.save()
             entrant_pk = entrant.pk
 
-            return HttpResponseRedirect('submission-confirmation-' + str(entrant_pk))
+            return HttpResponseRedirect(reverse('entry_form:submission', args=[entrant_pk]))
         raise BadRequest
     mailing_address_form = MailingAddressForm()
     entrant_form = EntrantForm()
